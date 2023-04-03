@@ -1,5 +1,6 @@
 # Xero Presence
-Discord Rich Presence for Xero
+Discord Rich Presence for Xero  
+Every 30 seconds it updates your current game state
 
 ## Tutorial
 1. Open Firefox or Chrome (tutorial is written using chrome)
