@@ -60,14 +60,28 @@ namespace XeroTest
             HtmlDocument doc = new HtmlDocument();
             doc.Load(response.GetResponseStream());
 
+            //Room
             HtmlNode node1 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]/div/div/a/div[2]/div/div[2]");
+            //Nickname
             HtmlNode node2 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]/div/div/a/div[2]/div/div[1]");
+            //Level Icon URL
             HtmlNode node3 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]");
 
             if (node1 != null)
                 _room = node1.InnerText;
             else
-                return;
+            {
+                try
+                {
+                    discord.Deinitialize();
+                    _discordLoggedIn = false;
+                    return;
+                }
+                catch
+                {
+                    return;
+                }
+            }
             if (node2 != null)
                 _nickname = node2.InnerText;
             if (node3 != null)
@@ -94,6 +108,7 @@ namespace XeroTest
             HtmlDocument doc2 = new HtmlDocument();
             doc2.Load(response2.GetResponseStream());
 
+            //Clan, Level and Experience
             HtmlNode node4 = doc2.DocumentNode.SelectSingleNode("/html/head/meta[5]");
 
             if (node4 != null)
@@ -110,7 +125,7 @@ namespace XeroTest
 
                     if (attributeName.ToLower() == "content")
                     {
-                        _experience_raw = $"{attributeValue.Split(" | ")[2]}";
+                        _experience_raw = $"{attributeValue.Split(" | ")[2]}"; //Experience
                         continue;
                     }
                 }
