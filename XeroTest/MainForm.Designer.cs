@@ -40,7 +40,7 @@
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 134);
+            bt_login.Location = new Point(12, 124);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -50,15 +50,16 @@
             // 
             // tb_sessionid
             // 
-            tb_sessionid.Location = new Point(12, 36);
+            tb_sessionid.Location = new Point(12, 26);
             tb_sessionid.Name = "tb_sessionid";
             tb_sessionid.Size = new Size(272, 23);
             tb_sessionid.TabIndex = 1;
+            tb_sessionid.UseSystemPasswordChar = true;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 18);
+            label1.Location = new Point(12, 8);
             label1.Name = "label1";
             label1.Size = new Size(91, 15);
             label1.TabIndex = 2;
@@ -67,7 +68,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 62);
+            label2.Location = new Point(12, 52);
             label2.Name = "label2";
             label2.Size = new Size(100, 15);
             label2.TabIndex = 4;
@@ -75,7 +76,7 @@
             // 
             // tb_friendnickname
             // 
-            tb_friendnickname.Location = new Point(12, 80);
+            tb_friendnickname.Location = new Point(12, 70);
             tb_friendnickname.Name = "tb_friendnickname";
             tb_friendnickname.Size = new Size(272, 23);
             tb_friendnickname.TabIndex = 3;
@@ -88,7 +89,7 @@
             // cb_ShowLevel
             // 
             cb_ShowLevel.AutoSize = true;
-            cb_ShowLevel.Location = new Point(12, 109);
+            cb_ShowLevel.Location = new Point(12, 99);
             cb_ShowLevel.Name = "cb_ShowLevel";
             cb_ShowLevel.Size = new Size(159, 19);
             cb_ShowLevel.TabIndex = 5;
@@ -99,7 +100,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 164);
+            ClientSize = new Size(300, 154);
             Controls.Add(cb_ShowLevel);
             Controls.Add(label2);
             Controls.Add(tb_friendnickname);
