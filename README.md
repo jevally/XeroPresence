@@ -11,5 +11,5 @@ Every 30 seconds it updates your current game state
 6. Copy the value from xero_session_ssl
 7. Paste it into the program
 8. Enter the nickname of the account that has your main account in the friendlist
-9. Click on "Start Presence
+9. Click on "Start Presence"
 10. Should work now
