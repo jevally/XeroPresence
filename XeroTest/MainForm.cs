@@ -152,7 +152,6 @@ namespace XeroTest
             buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
 
             discord.UpdateButtons(buttons);
-            timer1.Interval = 30000;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
