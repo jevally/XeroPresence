@@ -2,6 +2,11 @@
 Discord Rich Presence for Xero  
 Every 30 seconds it updates your current game state
 
+## Information
+- The session id will expire once your current session has ended (After xero detects that you are offline)
+- This means you may have to get a new session id each day
+- I'll try to automate it some day
+
 ## Tutorial
 1. Open Firefox or Chrome (tutorial is written using chrome)
 2. Open xero.gg and login with the account that has your main account as friend and only your main account

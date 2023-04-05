@@ -83,7 +83,7 @@
             // 
             // timer1
             // 
-            timer1.Interval = 30000;
+            timer1.Interval = 15000;
             timer1.Tick += timer1_Tick;
             // 
             // cb_ShowLevel
