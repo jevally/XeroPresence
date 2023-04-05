@@ -1,6 +1,6 @@
 # Xero Presence
 Discord Rich Presence for Xero  
-Every 30 seconds it updates your current game state
+Every 15 seconds it updates your current game state
 
 ## Information
 - The session id will expire once your current session has ended (After xero detects that you are offline)
