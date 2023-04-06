@@ -50,7 +50,7 @@ namespace XeroTest
             var _experience = "";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{tb_friendnickname.Text}/social");
 
-            Cookie cookie = new Cookie("xero_session_ssl", tb_sessionid.Text);
+            Cookie cookie = new Cookie("xero_login_ssl", tb_sessionid.Text);
             cookie.Domain = "xero.gg";
             request.CookieContainer = new CookieContainer();
             request.CookieContainer.Add(cookie);
