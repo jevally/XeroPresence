@@ -1,6 +1,6 @@
 # Xero Presence
 Discord Rich Presence for Xero  
-Every 5 seconds it updates your current game state
+Every 10 seconds it updates your current game state
 
 ## Information
 - You need to have Chrome 112 or higher installed in order to use this program
