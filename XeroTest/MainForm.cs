@@ -39,6 +39,7 @@ namespace XeroTest
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            bt_login.Text = "Logging in...";
             var options = new ChromeOptions();
 
             options.AddArgument("--headless");
@@ -52,22 +53,23 @@ namespace XeroTest
             driver.FindElement(By.Id("uniteddb-login-identifier")).SendKeys(tb_friendemail.Text);
             driver.FindElement(By.Id("uniteddb-login-password")).SendKeys(tb_friendpassword.Text);
 
+
             Thread.Sleep(650);
             driver.FindElement(By.Id("uniteddb-login-form-submit")).Click();
 
-            Thread.Sleep(2000);
-
+            Thread.Sleep(1500);
             var cookies = driver.Manage().Cookies.AllCookies;
 
             foreach (var cookie in cookies)
             {
-               if (cookie.Name.Contains("session_ssl"))
+                if (cookie.Name.Contains("session_ssl"))
                     _sessionssl = cookie.Value;
             }
 
             driver.Quit();
             Thread.Sleep(1000);
             timer1.Start();
+            bt_login.Text = "Logged in";
             tb_friendnickname.ReadOnly = true;
             tb_friendemail.ReadOnly = true;
             tb_friendpassword.ReadOnly = true;

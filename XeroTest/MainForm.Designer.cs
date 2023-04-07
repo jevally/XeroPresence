@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             bt_login = new Button();
             label2 = new Label();
             tb_friendnickname = new TextBox();
@@ -62,13 +63,14 @@
             // tb_friendnickname
             // 
             tb_friendnickname.Location = new Point(12, 115);
+            tb_friendnickname.MaxLength = 16;
             tb_friendnickname.Name = "tb_friendnickname";
             tb_friendnickname.Size = new Size(272, 23);
             tb_friendnickname.TabIndex = 3;
             // 
             // timer1
             // 
-            timer1.Interval = 15000;
+            timer1.Interval = 5000;
             timer1.Tick += timer1_Tick;
             // 
             // cb_ShowLevel
@@ -77,7 +79,7 @@
             cb_ShowLevel.Location = new Point(12, 144);
             cb_ShowLevel.Name = "cb_ShowLevel";
             cb_ShowLevel.Size = new Size(159, 19);
-            cb_ShowLevel.TabIndex = 5;
+            cb_ShowLevel.TabIndex = 4;
             cb_ShowLevel.Text = "Show Level as LargeAsset";
             cb_ShowLevel.UseVisualStyleBackColor = true;
             // 
@@ -95,7 +97,7 @@
             tb_friendemail.Location = new Point(12, 27);
             tb_friendemail.Name = "tb_friendemail";
             tb_friendemail.Size = new Size(272, 23);
-            tb_friendemail.TabIndex = 6;
+            tb_friendemail.TabIndex = 1;
             // 
             // label3
             // 
@@ -111,7 +113,7 @@
             tb_friendpassword.Location = new Point(12, 71);
             tb_friendpassword.Name = "tb_friendpassword";
             tb_friendpassword.Size = new Size(272, 23);
-            tb_friendpassword.TabIndex = 8;
+            tb_friendpassword.TabIndex = 2;
             tb_friendpassword.UseSystemPasswordChar = true;
             // 
             // MainForm
@@ -128,6 +130,7 @@
             Controls.Add(tb_friendnickname);
             Controls.Add(bt_login);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "MainForm";
             Text = "Xero Presence";
