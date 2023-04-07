@@ -11,4 +11,4 @@ Every 10 seconds it updates your current game state
 2. Click Start Presence
 3. Profit
 
-![image](https://i.imgur.com/kTztyhL.png)
+![image](https://i.imgur.com/7DHyHVD.png)
