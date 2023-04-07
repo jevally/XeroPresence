@@ -57,7 +57,7 @@ namespace XeroTest
             Thread.Sleep(650);
             driver.FindElement(By.Id("uniteddb-login-form-submit")).Click();
 
-            Thread.Sleep(1500);
+            Thread.Sleep(2000);
             var cookies = driver.Manage().Cookies.AllCookies;
 
             foreach (var cookie in cookies)
