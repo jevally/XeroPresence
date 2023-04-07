@@ -7,6 +7,8 @@ using System.Xml;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 using DiscordRPC;
 using XeroTest.Properties;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium;
 
 namespace XeroTest
 {
@@ -14,11 +16,13 @@ namespace XeroTest
     {
         private static DiscordRpcClient discord;
         public bool _discordLoggedIn = false;
+        public string _sessionssl = "";
         public MainForm()
         {
             InitializeComponent();
             tb_friendnickname.Text = Settings.Default.nickname;
-            tb_sessionid.Text = Settings.Default.sessionid;
+            tb_friendemail.Text = Settings.Default.email;
+            tb_friendpassword.Text = Settings.Default.password;
         }
 
         private static void InitializeDiscord()
@@ -35,9 +39,38 @@ namespace XeroTest
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            var options = new ChromeOptions();
+
+            options.AddArgument("--headless");
+            var service = ChromeDriverService.CreateDefaultService();
+            service.HideCommandPromptWindow = true;
+
+            IWebDriver driver = new ChromeDriver(service, options);
+
+            driver.Navigate().GoToUrl("https://xero.gg/signin");
+
+            driver.FindElement(By.Id("uniteddb-login-identifier")).SendKeys(tb_friendemail.Text);
+            driver.FindElement(By.Id("uniteddb-login-password")).SendKeys(tb_friendpassword.Text);
+
+            Thread.Sleep(650);
+            driver.FindElement(By.Id("uniteddb-login-form-submit")).Click();
+
+            Thread.Sleep(2000);
+
+            var cookies = driver.Manage().Cookies.AllCookies;
+
+            foreach (var cookie in cookies)
+            {
+               if (cookie.Name.Contains("session_ssl"))
+                    _sessionssl = cookie.Value;
+            }
+
+            driver.Quit();
+            Thread.Sleep(1000);
             timer1.Start();
             tb_friendnickname.ReadOnly = true;
-            tb_sessionid.ReadOnly = true;
+            tb_friendemail.ReadOnly = true;
+            tb_friendpassword.ReadOnly = true;
             bt_login.Enabled = false;
         }
 
@@ -50,7 +83,7 @@ namespace XeroTest
             var _experience = "";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{tb_friendnickname.Text}/social");
 
-            Cookie cookie = new Cookie("xero_login_ssl", tb_sessionid.Text);
+            System.Net.Cookie cookie = new System.Net.Cookie("xero_session_ssl", _sessionssl);
             cookie.Domain = "xero.gg";
             request.CookieContainer = new CookieContainer();
             request.CookieContainer.Add(cookie);
@@ -156,7 +189,8 @@ namespace XeroTest
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Settings.Default.sessionid = tb_sessionid.Text;
+            Settings.Default.email = tb_friendemail.Text;
+            Settings.Default.password = tb_friendpassword.Text;
             Settings.Default.nickname = tb_friendnickname.Text;
             Settings.Default.Save();
         }

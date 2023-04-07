@@ -30,17 +30,19 @@
         {
             components = new System.ComponentModel.Container();
             bt_login = new Button();
-            tb_sessionid = new TextBox();
-            label1 = new Label();
             label2 = new Label();
             tb_friendnickname = new TextBox();
             timer1 = new System.Windows.Forms.Timer(components);
             cb_ShowLevel = new CheckBox();
+            label1 = new Label();
+            tb_friendemail = new TextBox();
+            label3 = new Label();
+            tb_friendpassword = new TextBox();
             SuspendLayout();
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 124);
+            bt_login.Location = new Point(12, 169);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -48,27 +50,10 @@
             bt_login.UseVisualStyleBackColor = true;
             bt_login.Click += button1_Click;
             // 
-            // tb_sessionid
-            // 
-            tb_sessionid.Location = new Point(12, 26);
-            tb_sessionid.Name = "tb_sessionid";
-            tb_sessionid.Size = new Size(272, 23);
-            tb_sessionid.TabIndex = 1;
-            tb_sessionid.UseSystemPasswordChar = true;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(91, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Enter session id:";
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 52);
+            label2.Location = new Point(12, 97);
             label2.Name = "label2";
             label2.Size = new Size(100, 15);
             label2.TabIndex = 4;
@@ -76,7 +61,7 @@
             // 
             // tb_friendnickname
             // 
-            tb_friendnickname.Location = new Point(12, 70);
+            tb_friendnickname.Location = new Point(12, 115);
             tb_friendnickname.Name = "tb_friendnickname";
             tb_friendnickname.Size = new Size(272, 23);
             tb_friendnickname.TabIndex = 3;
@@ -89,23 +74,58 @@
             // cb_ShowLevel
             // 
             cb_ShowLevel.AutoSize = true;
-            cb_ShowLevel.Location = new Point(12, 99);
+            cb_ShowLevel.Location = new Point(12, 144);
             cb_ShowLevel.Name = "cb_ShowLevel";
             cb_ShowLevel.Size = new Size(159, 19);
             cb_ShowLevel.TabIndex = 5;
             cb_ShowLevel.Text = "Show Level as LargeAsset";
             cb_ShowLevel.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(80, 15);
+            label1.TabIndex = 7;
+            label1.Text = "Friend E-Mail:";
+            // 
+            // tb_friendemail
+            // 
+            tb_friendemail.Location = new Point(12, 27);
+            tb_friendemail.Name = "tb_friendemail";
+            tb_friendemail.Size = new Size(272, 23);
+            tb_friendemail.TabIndex = 6;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 53);
+            label3.Name = "label3";
+            label3.Size = new Size(96, 15);
+            label3.TabIndex = 9;
+            label3.Text = "Friend Password:";
+            // 
+            // tb_friendpassword
+            // 
+            tb_friendpassword.Location = new Point(12, 71);
+            tb_friendpassword.Name = "tb_friendpassword";
+            tb_friendpassword.Size = new Size(272, 23);
+            tb_friendpassword.TabIndex = 8;
+            tb_friendpassword.UseSystemPasswordChar = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 154);
+            ClientSize = new Size(300, 200);
+            Controls.Add(label3);
+            Controls.Add(tb_friendpassword);
+            Controls.Add(label1);
+            Controls.Add(tb_friendemail);
             Controls.Add(cb_ShowLevel);
             Controls.Add(label2);
             Controls.Add(tb_friendnickname);
-            Controls.Add(label1);
-            Controls.Add(tb_sessionid);
             Controls.Add(bt_login);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -119,11 +139,13 @@
         #endregion
 
         private Button bt_login;
-        private TextBox tb_sessionid;
-        private Label label1;
         private Label label2;
         private TextBox tb_friendnickname;
         private System.Windows.Forms.Timer timer1;
         private CheckBox cb_ShowLevel;
+        private Label label1;
+        private TextBox tb_friendemail;
+        private Label label3;
+        private TextBox tb_friendpassword;
     }
 }
