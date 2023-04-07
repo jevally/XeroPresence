@@ -58,5 +58,41 @@ namespace XeroTest.Properties {
                 this["password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool tray {
+            get {
+                return ((bool)(this["tray"]));
+            }
+            set {
+                this["tray"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool windows {
+            get {
+                return ((bool)(this["windows"]));
+            }
+            set {
+                this["windows"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool level {
+            get {
+                return ((bool)(this["level"]));
+            }
+            set {
+                this["level"] = value;
+            }
+        }
     }
 }

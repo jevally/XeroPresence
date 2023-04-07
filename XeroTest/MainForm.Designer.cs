@@ -39,11 +39,16 @@
             tb_friendemail = new TextBox();
             label3 = new Label();
             tb_friendpassword = new TextBox();
+            groupBox1 = new GroupBox();
+            cb_HideInTray = new CheckBox();
+            cb_StartWithWindows = new CheckBox();
+            notifyIcon = new NotifyIcon(components);
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 169);
+            bt_login.Location = new Point(12, 253);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -76,7 +81,7 @@
             // cb_ShowLevel
             // 
             cb_ShowLevel.AutoSize = true;
-            cb_ShowLevel.Location = new Point(12, 144);
+            cb_ShowLevel.Location = new Point(6, 22);
             cb_ShowLevel.Name = "cb_ShowLevel";
             cb_ShowLevel.Size = new Size(159, 19);
             cb_ShowLevel.TabIndex = 4;
@@ -116,16 +121,56 @@
             tb_friendpassword.TabIndex = 2;
             tb_friendpassword.UseSystemPasswordChar = true;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(cb_HideInTray);
+            groupBox1.Controls.Add(cb_StartWithWindows);
+            groupBox1.Controls.Add(cb_ShowLevel);
+            groupBox1.Location = new Point(12, 144);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(272, 103);
+            groupBox1.TabIndex = 10;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Settings";
+            // 
+            // cb_HideInTray
+            // 
+            cb_HideInTray.AutoSize = true;
+            cb_HideInTray.Location = new Point(6, 72);
+            cb_HideInTray.Name = "cb_HideInTray";
+            cb_HideInTray.Size = new Size(88, 19);
+            cb_HideInTray.TabIndex = 6;
+            cb_HideInTray.Text = "Hide in Tray";
+            cb_HideInTray.UseVisualStyleBackColor = true;
+            cb_HideInTray.CheckedChanged += cb_HideInTray_CheckedChanged;
+            // 
+            // cb_StartWithWindows
+            // 
+            cb_StartWithWindows.AutoSize = true;
+            cb_StartWithWindows.Location = new Point(6, 47);
+            cb_StartWithWindows.Name = "cb_StartWithWindows";
+            cb_StartWithWindows.Size = new Size(128, 19);
+            cb_StartWithWindows.TabIndex = 5;
+            cb_StartWithWindows.Text = "Start with Windows";
+            cb_StartWithWindows.UseVisualStyleBackColor = true;
+            cb_StartWithWindows.CheckedChanged += cb_StartWithWindows_CheckedChanged;
+            // 
+            // notifyIcon
+            // 
+            notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
+            notifyIcon.Text = "notifyIcon1";
+            notifyIcon.MouseClick += notifyIcon_MouseClick;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 200);
+            ClientSize = new Size(300, 288);
+            Controls.Add(groupBox1);
             Controls.Add(label3);
             Controls.Add(tb_friendpassword);
             Controls.Add(label1);
             Controls.Add(tb_friendemail);
-            Controls.Add(cb_ShowLevel);
             Controls.Add(label2);
             Controls.Add(tb_friendnickname);
             Controls.Add(bt_login);
@@ -135,6 +180,10 @@
             Name = "MainForm";
             Text = "Xero Presence";
             FormClosing += Form1_FormClosing;
+            Load += MainForm_Load;
+            Shown += MainForm_Shown;
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -150,5 +199,9 @@
         private TextBox tb_friendemail;
         private Label label3;
         private TextBox tb_friendpassword;
+        private GroupBox groupBox1;
+        private CheckBox cb_StartWithWindows;
+        private NotifyIcon notifyIcon;
+        private CheckBox cb_HideInTray;
     }
 }

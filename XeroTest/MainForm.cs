@@ -1,14 +1,12 @@
 using HtmlAgilityPack;
-using System.ComponentModel;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 using DiscordRPC;
 using XeroTest.Properties;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
+using IWshRuntimeLibrary;
 
 namespace XeroTest
 {
@@ -23,6 +21,9 @@ namespace XeroTest
             tb_friendnickname.Text = Settings.Default.nickname;
             tb_friendemail.Text = Settings.Default.email;
             tb_friendpassword.Text = Settings.Default.password;
+            cb_StartWithWindows.Checked = Settings.Default.windows;
+            cb_HideInTray.Checked = Settings.Default.tray;
+            cb_ShowLevel.Checked = Settings.Default.level;
         }
 
         private static void InitializeDiscord()
@@ -39,11 +40,13 @@ namespace XeroTest
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
             bt_login.Text = "Logging in...";
             var options = new ChromeOptions();
 
             options.AddArgument("--headless");
-            var service = ChromeDriverService.CreateDefaultService();
+            var service = ChromeDriverService.CreateDefaultService(exePath);
             service.HideCommandPromptWindow = true;
 
             IWebDriver driver = new ChromeDriver(service, options);
@@ -178,7 +181,7 @@ namespace XeroTest
             else
                 discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
             _experience = Regex.Replace(_experience_raw, @"\s*\([^)]*\)", "");
-                discord.UpdateDetails($"{_nickname} » {_room}");
+            discord.UpdateDetails($"{_nickname} » {_room}");
             if (cb_ShowLevel.Checked)
                 discord.UpdateState($"{_experience}");
             else
@@ -194,7 +197,75 @@ namespace XeroTest
             Settings.Default.email = tb_friendemail.Text;
             Settings.Default.password = tb_friendpassword.Text;
             Settings.Default.nickname = tb_friendnickname.Text;
+            Settings.Default.windows = cb_StartWithWindows.Checked;
+            Settings.Default.tray = cb_HideInTray.Checked;
+            Settings.Default.level = cb_ShowLevel.Checked;
             Settings.Default.Save();
+        }
+
+        private void cms_Exit_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void cb_StartWithWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            string shortcutPath = Path.Combine(startupFolder, "Xero Presence.lnk");
+
+            if (cb_StartWithWindows.Checked)
+            {
+                // Create shortcut to the program's exe file in the startup folder
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+                shortcut.TargetPath = Application.ExecutablePath;
+                shortcut.Save();
+            }
+            else
+            {
+                // Delete shortcut from the startup folder
+                System.IO.File.Delete(shortcutPath);
+            }
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Visible = true;
+                this.ShowInTaskbar = true;
+                notifyIcon.Visible = false;
+                cb_HideInTray.Checked = false;
+            }
+        }
+
+        private void cb_HideInTray_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_HideInTray.Checked)
+            {
+                this.Visible = false;
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (cb_StartWithWindows.Checked)
+            {
+                this.Visible = false;
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (cb_StartWithWindows.Checked)
+            {
+                bt_login.Focus();
+                bt_login.PerformClick();
+            }
         }
     }
 }
