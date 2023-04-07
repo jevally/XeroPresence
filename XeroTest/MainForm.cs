@@ -178,11 +178,11 @@ namespace XeroTest
             else
                 discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
             _experience = Regex.Replace(_experience_raw, @"\s*\([^)]*\)", "");
+                discord.UpdateDetails($"{_nickname} » {_room}");
             if (cb_ShowLevel.Checked)
-                discord.UpdateDetails($"{_nickname} | {_experience}");
+                discord.UpdateState($"{_experience}");
             else
-                discord.UpdateDetails($"{_nickname} | Lv. {_level} | {_experience}");
-            discord.UpdateState(_room);
+                discord.UpdateState($"Lv. {_level} | {_experience}");
             DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
             buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
 
