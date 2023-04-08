@@ -46,7 +46,7 @@ namespace XeroTest
             var options = new ChromeOptions();
 
             options.AddArgument("--headless");
-            var service = ChromeDriverService.CreateDefaultService(exePath);
+            var service = ChromeDriverService.CreateDefaultService(".", "chromedriver.exe");
             service.HideCommandPromptWindow = true;
 
             IWebDriver driver = new ChromeDriver(service, options);
