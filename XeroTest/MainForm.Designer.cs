@@ -158,7 +158,7 @@
             // notifyIcon
             // 
             notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
-            notifyIcon.Text = "notifyIcon1";
+            notifyIcon.Text = "Xero Presence";
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             // 
             // MainForm
