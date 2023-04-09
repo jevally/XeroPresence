@@ -187,9 +187,8 @@ namespace XeroTest
                 discord.UpdateState($"{_experience}");
             else
                 discord.UpdateState($"Lv. {_level} | {_experience}");
-            DiscordRPC.Button[] buttons = new DiscordRPC.Button[2];
+            DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
             buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
-            buttons[1] = new DiscordRPC.Button { Label = "View on GitHub", Url = $"https://github.com/Dekirai/XeroPresence" };
 
             discord.UpdateButtons(buttons);
         }
