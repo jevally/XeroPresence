@@ -21,4 +21,4 @@ Every 10 seconds it updates your current game state
 7. Click "Start Presence"
 8. After about 15 seconds, the Presence should be visible on your discord profile if your main account is online
 
-![image](https://i.imgur.com/zRRpxGB.png)![image](https://i.imgur.com/FBcolbT.png)
+![image](https://i.imgur.com/23G9g4n.png)![image](https://i.imgur.com/FBcolbT.png)
