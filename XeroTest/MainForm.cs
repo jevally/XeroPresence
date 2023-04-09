@@ -103,8 +103,6 @@ namespace XeroTest
             HtmlNode node1 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]/div/div/a/div[2]/div/div[2]");
             //Nickname
             HtmlNode node2 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]/div/div/a/div[2]/div/div[1]");
-            //Level Icon URL
-            HtmlNode node3 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]");
 
             if (node1 != null)
                 _room = node1.InnerText;
@@ -123,22 +121,6 @@ namespace XeroTest
             }
             if (node2 != null)
                 _nickname = node2.InnerText;
-            if (node3 != null)
-            {
-                string imgHtml = node3.OuterHtml;
-
-                var regex = new Regex(@"\s+(?<attributeName>\S+)\s*=\s*""(?<attributeValue>[^""]*)""");
-                var matches = regex.Matches(imgHtml);
-
-                foreach (Match match in matches)
-                {
-                    string attributeName = match.Groups["attributeName"].Value;
-                    string attributeValue = match.Groups["attributeValue"].Value;
-
-                    if (attributeName.ToLower() == "src")
-                        _level = ($"{attributeValue.Replace("/assets/img/grade/xero/84/", "").Replace(".png", "")}");
-                }
-            }
 
             HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{_nickname}");
             request2.CookieContainer = request.CookieContainer;
@@ -164,6 +146,7 @@ namespace XeroTest
 
                     if (attributeName.ToLower() == "content")
                     {
+                        _level = $"{attributeValue.Split(" | ")[1]}"; //Level
                         _experience_raw = $"{attributeValue.Split(" | ")[2]}"; //Experience
                         continue;
                     }
@@ -178,7 +161,7 @@ namespace XeroTest
             }
 
             if (cb_ShowLevel.Checked)
-                discord.UpdateLargeAsset($"https://xero.gg/assets/img/grade/xero/84/{_level}.png", $"Level {_level}");
+                discord.UpdateLargeAsset($"https://xero.gg/assets/img/grade/xero/84/{_level.Replace("Level: ", "")}.png", $"{_level}");
             else
                 discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
             _experience = Regex.Replace(_experience_raw, @"\s*\([^)]*\)", "");
@@ -186,7 +169,7 @@ namespace XeroTest
             if (cb_ShowLevel.Checked)
                 discord.UpdateState($"{_experience}");
             else
-                discord.UpdateState($"Lv. {_level} | {_experience}");
+                discord.UpdateState($"{_level} | {_experience}");
             DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
             buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
 
@@ -202,11 +185,6 @@ namespace XeroTest
             Settings.Default.tray = cb_HideInTray.Checked;
             Settings.Default.level = cb_ShowLevel.Checked;
             Settings.Default.Save();
-        }
-
-        private void cms_Exit_Click(object sender, EventArgs e)
-        {
-            Environment.Exit(0);
         }
 
         private void cb_StartWithWindows_CheckedChanged(object sender, EventArgs e)
