@@ -228,20 +228,13 @@ namespace XeroTest
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void MainForm_Shown(object sender, EventArgs e)
         {
             if (cb_StartWithWindows.Checked)
             {
                 this.Visible = false;
                 this.ShowInTaskbar = false;
                 notifyIcon.Visible = true;
-            }
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            if (cb_StartWithWindows.Checked)
-            {
                 bt_login.Focus();
                 bt_login.PerformClick();
             }

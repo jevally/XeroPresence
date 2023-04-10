@@ -180,7 +180,6 @@
             Name = "MainForm";
             Text = "Xero Presence";
             FormClosing += Form1_FormClosing;
-            Load += MainForm_Load;
             Shown += MainForm_Shown;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
