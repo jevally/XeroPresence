@@ -85,7 +85,6 @@ namespace XeroTest
             var _room = "";
             var _nickname = "";
             var _level = "";
-            var _experience_raw = "";
             var _experience = "";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{tb_friendnickname.Text}/social");
 
@@ -147,7 +146,7 @@ namespace XeroTest
                     if (attributeName.ToLower() == "content")
                     {
                         _level = $"{attributeValue.Split(" | ")[1]}"; //Level
-                        _experience_raw = $"{attributeValue.Split(" | ")[2]}"; //Experience
+                        _experience = $"{attributeValue.Split(" | ")[2]}"; //Experience
                         continue;
                     }
                 }
@@ -164,7 +163,6 @@ namespace XeroTest
                 discord.UpdateLargeAsset($"https://xero.gg/assets/img/grade/xero/84/{_level.Replace("Level: ", "")}.png", $"{_level}");
             else
                 discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
-            _experience = Regex.Replace(_experience_raw, @"\s*\([^)]*\)", "");
             discord.UpdateDetails($"{_nickname} » {_room}");
             if (cb_ShowLevel.Checked)
                 discord.UpdateState($"{_experience}");
@@ -231,6 +229,12 @@ namespace XeroTest
         private void MainForm_Load(object sender, EventArgs e)
         {
             if (cb_StartWithWindows.Checked)
+            {
+                this.Visible = false;
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
+            if (cb_HideInTray.Checked)
             {
                 this.Visible = false;
                 this.ShowInTaskbar = false;
