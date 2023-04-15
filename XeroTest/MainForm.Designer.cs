@@ -43,12 +43,13 @@
             cb_HideInTray = new CheckBox();
             cb_StartWithWindows = new CheckBox();
             notifyIcon = new NotifyIcon(components);
+            bt_save = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 253);
+            bt_login.Location = new Point(12, 282);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -87,7 +88,6 @@
             cb_ShowLevel.TabIndex = 4;
             cb_ShowLevel.Text = "Show Level as LargeAsset";
             cb_ShowLevel.UseVisualStyleBackColor = true;
-            cb_ShowLevel.CheckedChanged += cb_ShowLevel_CheckedChanged;
             // 
             // label1
             // 
@@ -154,7 +154,6 @@
             cb_StartWithWindows.TabIndex = 5;
             cb_StartWithWindows.Text = "Start with Windows";
             cb_StartWithWindows.UseVisualStyleBackColor = true;
-            cb_StartWithWindows.CheckedChanged += cb_StartWithWindows_CheckedChanged;
             // 
             // notifyIcon
             // 
@@ -162,11 +161,22 @@
             notifyIcon.Text = "Xero Presence";
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             // 
+            // bt_save
+            // 
+            bt_save.Location = new Point(12, 253);
+            bt_save.Name = "bt_save";
+            bt_save.Size = new Size(272, 23);
+            bt_save.TabIndex = 11;
+            bt_save.Text = "Save Settings";
+            bt_save.UseVisualStyleBackColor = true;
+            bt_save.Click += bt_save_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 288);
+            ClientSize = new Size(300, 310);
+            Controls.Add(bt_save);
             Controls.Add(groupBox1);
             Controls.Add(label3);
             Controls.Add(tb_friendpassword);
@@ -204,5 +214,6 @@
         private CheckBox cb_StartWithWindows;
         private NotifyIcon notifyIcon;
         private CheckBox cb_HideInTray;
+        private Button bt_save;
     }
 }

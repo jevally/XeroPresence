@@ -8,6 +8,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using IWshRuntimeLibrary;
 using System.Diagnostics;
+using System;
 
 namespace XeroTest
 {
@@ -104,9 +105,9 @@ namespace XeroTest
             //Nickname
             HtmlNode node2 = doc.DocumentNode.SelectSingleNode("//*[@id=\"settings-data-container\"]/div[3]/div/div/a/div[2]/div/div[1]");
 
-            if (node1 != null)
-                _room = node1.InnerText;
-            else
+            Process[] xero = Process.GetProcessesByName("xeroclient");
+
+            if (xero.Length == 0)
             {
                 try
                 {
@@ -119,60 +120,67 @@ namespace XeroTest
                     return;
                 }
             }
-            if (node2 != null)
-                _nickname = node2.InnerText;
-
-            HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{_nickname}");
-            request2.CookieContainer = request.CookieContainer;
-
-            HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
-            HtmlDocument doc2 = new HtmlDocument();
-            doc2.Load(response2.GetResponseStream());
-
-            //Clan, Level and Experience
-            HtmlNode node4 = doc2.DocumentNode.SelectSingleNode("/html/head/meta[5]");
-
-            if (node4 != null)
+            else
             {
-                string imgHtml = node4.OuterHtml;
+                if (node1 != null)
+                    _room = node1.InnerText;
+                else
+                    return;
+                if (node2 != null)
+                    _nickname = node2.InnerText;
 
-                var regex = new Regex(@"\s+(?<attributeName>\S+)\s*=\s*""(?<attributeValue>[^""]*)""");
-                var matches = regex.Matches(imgHtml);
+                HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{_nickname}");
+                request2.CookieContainer = request.CookieContainer;
 
-                foreach (Match match in matches)
+                HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+                HtmlDocument doc2 = new HtmlDocument();
+                doc2.Load(response2.GetResponseStream());
+
+                //Clan, Level and Experience
+                HtmlNode node4 = doc2.DocumentNode.SelectSingleNode("/html/head/meta[5]");
+
+                if (node4 != null)
                 {
-                    string attributeName = match.Groups["attributeName"].Value;
-                    string attributeValue = match.Groups["attributeValue"].Value;
+                    string imgHtml = node4.OuterHtml;
 
-                    if (attributeName.ToLower() == "content")
+                    var regex = new Regex(@"\s+(?<attributeName>\S+)\s*=\s*""(?<attributeValue>[^""]*)""");
+                    var matches = regex.Matches(imgHtml);
+
+                    foreach (Match match in matches)
                     {
-                        _level = $"{attributeValue.Split(" | ")[1]}"; //Level
-                        _experience = $"{attributeValue.Split(" | ")[2]}"; //Experience
-                        continue;
+                        string attributeName = match.Groups["attributeName"].Value;
+                        string attributeValue = match.Groups["attributeValue"].Value;
+
+                        if (attributeName.ToLower() == "content")
+                        {
+                            _level = $"{attributeValue.Split(" | ")[1]}"; //Level
+                            _experience = $"{attributeValue.Split(" | ")[2]}"; //Experience
+                            continue;
+                        }
                     }
                 }
+
+                if (_discordLoggedIn == false)
+                {
+                    discord = new DiscordRpcClient("1092449168703901756");
+                    InitializeDiscord();
+                    _discordLoggedIn = true;
+                }
+
+                if (cb_ShowLevel.Checked)
+                    discord.UpdateLargeAsset($"https://xero.gg/assets/img/grade/xero/84/{_level.Replace("Level: ", "")}.png", $"{_level}");
+                else
+                    discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
+                discord.UpdateDetails($"{_nickname} » {_room}");
+                if (cb_ShowLevel.Checked)
+                    discord.UpdateState($"{_experience}");
+                else
+                    discord.UpdateState($"{_level} | {_experience}");
+                DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
+                buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
+
+                discord.UpdateButtons(buttons);
             }
-
-            if (_discordLoggedIn == false)
-            {
-                discord = new DiscordRpcClient("1092449168703901756");
-                InitializeDiscord();
-                _discordLoggedIn = true;
-            }
-
-            if (cb_ShowLevel.Checked)
-                discord.UpdateLargeAsset($"https://xero.gg/assets/img/grade/xero/84/{_level.Replace("Level: ", "")}.png", $"{_level}");
-            else
-                discord.UpdateLargeAsset("https://dekirai.crygod.de/rpc/xero/logo.png", $"Xero");
-            discord.UpdateDetails($"{_nickname} » {_room}");
-            if (cb_ShowLevel.Checked)
-                discord.UpdateState($"{_experience}");
-            else
-                discord.UpdateState($"{_level} | {_experience}");
-            DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
-            buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
-
-            discord.UpdateButtons(buttons);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -204,14 +212,6 @@ namespace XeroTest
                 // Delete shortcut from the startup folder
                 System.IO.File.Delete(shortcutPath);
             }
-
-            Settings.Default.email = tb_friendemail.Text;
-            Settings.Default.password = tb_friendpassword.Text;
-            Settings.Default.nickname = tb_friendnickname.Text;
-            Settings.Default.windows = cb_StartWithWindows.Checked;
-            Settings.Default.tray = cb_HideInTray.Checked;
-            Settings.Default.level = cb_ShowLevel.Checked;
-            Settings.Default.Save();
         }
 
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -260,7 +260,7 @@ namespace XeroTest
             }
         }
 
-        private void cb_ShowLevel_CheckedChanged(object sender, EventArgs e)
+        private void bt_save_Click(object sender, EventArgs e)
         {
             Settings.Default.email = tb_friendemail.Text;
             Settings.Default.password = tb_friendpassword.Text;
