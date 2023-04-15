@@ -87,6 +87,7 @@
             cb_ShowLevel.TabIndex = 4;
             cb_ShowLevel.Text = "Show Level as LargeAsset";
             cb_ShowLevel.UseVisualStyleBackColor = true;
+            cb_ShowLevel.CheckedChanged += cb_ShowLevel_CheckedChanged;
             // 
             // label1
             // 

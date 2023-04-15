@@ -86,9 +86,10 @@ namespace XeroTest
             var _nickname = "";
             var _level = "";
             var _experience = "";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{tb_friendnickname.Text}/social");
 
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://xero.gg/player/{tb_friendnickname.Text}/social");
             System.Net.Cookie cookie = new System.Net.Cookie("xero_session_ssl", _sessionssl);
+
             cookie.Domain = "xero.gg";
             request.CookieContainer = new CookieContainer();
             request.CookieContainer.Add(cookie);
@@ -203,6 +204,14 @@ namespace XeroTest
                 // Delete shortcut from the startup folder
                 System.IO.File.Delete(shortcutPath);
             }
+
+            Settings.Default.email = tb_friendemail.Text;
+            Settings.Default.password = tb_friendpassword.Text;
+            Settings.Default.nickname = tb_friendnickname.Text;
+            Settings.Default.windows = cb_StartWithWindows.Checked;
+            Settings.Default.tray = cb_HideInTray.Checked;
+            Settings.Default.level = cb_ShowLevel.Checked;
+            Settings.Default.Save();
         }
 
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -249,6 +258,17 @@ namespace XeroTest
                 bt_login.Focus();
                 bt_login.PerformClick();
             }
+        }
+
+        private void cb_ShowLevel_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.email = tb_friendemail.Text;
+            Settings.Default.password = tb_friendpassword.Text;
+            Settings.Default.nickname = tb_friendnickname.Text;
+            Settings.Default.windows = cb_StartWithWindows.Checked;
+            Settings.Default.tray = cb_HideInTray.Checked;
+            Settings.Default.level = cb_ShowLevel.Checked;
+            Settings.Default.Save();
         }
     }
 }
