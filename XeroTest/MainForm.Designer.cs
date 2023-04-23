@@ -31,8 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             bt_login = new Button();
-            label2 = new Label();
-            tb_friendnickname = new TextBox();
             timer1 = new System.Windows.Forms.Timer(components);
             cb_ShowLevel = new CheckBox();
             label1 = new Label();
@@ -49,30 +47,13 @@
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 282);
+            bt_login.Location = new Point(12, 239);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
             bt_login.Text = "Start Presence";
             bt_login.UseVisualStyleBackColor = true;
             bt_login.Click += button1_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 97);
-            label2.Name = "label2";
-            label2.Size = new Size(100, 15);
-            label2.TabIndex = 4;
-            label2.Text = "Friend Nickname:";
-            // 
-            // tb_friendnickname
-            // 
-            tb_friendnickname.Location = new Point(12, 115);
-            tb_friendnickname.MaxLength = 16;
-            tb_friendnickname.Name = "tb_friendnickname";
-            tb_friendnickname.Size = new Size(272, 23);
-            tb_friendnickname.TabIndex = 3;
             // 
             // timer1
             // 
@@ -82,6 +63,7 @@
             // cb_ShowLevel
             // 
             cb_ShowLevel.AutoSize = true;
+            cb_ShowLevel.Enabled = false;
             cb_ShowLevel.Location = new Point(6, 22);
             cb_ShowLevel.Name = "cb_ShowLevel";
             cb_ShowLevel.Size = new Size(159, 19);
@@ -94,9 +76,9 @@
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(80, 15);
+            label1.Size = new Size(44, 15);
             label1.TabIndex = 7;
-            label1.Text = "Friend E-Mail:";
+            label1.Text = "E-Mail:";
             // 
             // tb_friendemail
             // 
@@ -110,9 +92,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(12, 53);
             label3.Name = "label3";
-            label3.Size = new Size(96, 15);
+            label3.Size = new Size(60, 15);
             label3.TabIndex = 9;
-            label3.Text = "Friend Password:";
+            label3.Text = "Password:";
             // 
             // tb_friendpassword
             // 
@@ -127,7 +109,7 @@
             groupBox1.Controls.Add(cb_HideInTray);
             groupBox1.Controls.Add(cb_StartWithWindows);
             groupBox1.Controls.Add(cb_ShowLevel);
-            groupBox1.Location = new Point(12, 144);
+            groupBox1.Location = new Point(12, 101);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(272, 103);
             groupBox1.TabIndex = 10;
@@ -163,7 +145,7 @@
             // 
             // bt_save
             // 
-            bt_save.Location = new Point(12, 253);
+            bt_save.Location = new Point(12, 210);
             bt_save.Name = "bt_save";
             bt_save.Size = new Size(272, 23);
             bt_save.TabIndex = 11;
@@ -175,15 +157,13 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 310);
+            ClientSize = new Size(300, 272);
             Controls.Add(bt_save);
             Controls.Add(groupBox1);
             Controls.Add(label3);
             Controls.Add(tb_friendpassword);
             Controls.Add(label1);
             Controls.Add(tb_friendemail);
-            Controls.Add(label2);
-            Controls.Add(tb_friendnickname);
             Controls.Add(bt_login);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -202,8 +182,6 @@
         #endregion
 
         private Button bt_login;
-        private Label label2;
-        private TextBox tb_friendnickname;
         private System.Windows.Forms.Timer timer1;
         private CheckBox cb_ShowLevel;
         private Label label1;
