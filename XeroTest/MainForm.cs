@@ -250,7 +250,10 @@ namespace XeroTest
                         }
                         else
                         {
-
+                            if (_isPasswordProtected)
+                                discord.UpdateSmallAsset("lock", "This room is password protected");
+                            else
+                                discord.UpdateSmallAsset("", "");
                             discord.UpdateLargeAsset(_mapimage, $"Playing on {_map}");
                             discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
                             discord.UpdateState($"{_name} | Waiting");
