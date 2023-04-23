@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             bt_login = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
-            cb_ShowLevel = new CheckBox();
             label1 = new Label();
             tb_friendemail = new TextBox();
             label3 = new Label();
@@ -47,7 +46,7 @@
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 239);
+            bt_login.Location = new Point(12, 206);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -59,17 +58,6 @@
             // 
             timer1.Interval = 10000;
             timer1.Tick += timer1_Tick;
-            // 
-            // cb_ShowLevel
-            // 
-            cb_ShowLevel.AutoSize = true;
-            cb_ShowLevel.Enabled = false;
-            cb_ShowLevel.Location = new Point(6, 22);
-            cb_ShowLevel.Name = "cb_ShowLevel";
-            cb_ShowLevel.Size = new Size(159, 19);
-            cb_ShowLevel.TabIndex = 4;
-            cb_ShowLevel.Text = "Show Level as LargeAsset";
-            cb_ShowLevel.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -108,10 +96,9 @@
             // 
             groupBox1.Controls.Add(cb_HideInTray);
             groupBox1.Controls.Add(cb_StartWithWindows);
-            groupBox1.Controls.Add(cb_ShowLevel);
             groupBox1.Location = new Point(12, 101);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(272, 103);
+            groupBox1.Size = new Size(272, 71);
             groupBox1.TabIndex = 10;
             groupBox1.TabStop = false;
             groupBox1.Text = "Settings";
@@ -119,7 +106,7 @@
             // cb_HideInTray
             // 
             cb_HideInTray.AutoSize = true;
-            cb_HideInTray.Location = new Point(6, 72);
+            cb_HideInTray.Location = new Point(6, 46);
             cb_HideInTray.Name = "cb_HideInTray";
             cb_HideInTray.Size = new Size(88, 19);
             cb_HideInTray.TabIndex = 6;
@@ -130,7 +117,7 @@
             // cb_StartWithWindows
             // 
             cb_StartWithWindows.AutoSize = true;
-            cb_StartWithWindows.Location = new Point(6, 47);
+            cb_StartWithWindows.Location = new Point(6, 21);
             cb_StartWithWindows.Name = "cb_StartWithWindows";
             cb_StartWithWindows.Size = new Size(128, 19);
             cb_StartWithWindows.TabIndex = 5;
@@ -145,7 +132,7 @@
             // 
             // bt_save
             // 
-            bt_save.Location = new Point(12, 210);
+            bt_save.Location = new Point(12, 177);
             bt_save.Name = "bt_save";
             bt_save.Size = new Size(272, 23);
             bt_save.TabIndex = 11;
@@ -157,7 +144,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 272);
+            ClientSize = new Size(300, 234);
             Controls.Add(bt_save);
             Controls.Add(groupBox1);
             Controls.Add(label3);
@@ -183,7 +170,6 @@
 
         private Button bt_login;
         private System.Windows.Forms.Timer timer1;
-        private CheckBox cb_ShowLevel;
         private Label label1;
         private TextBox tb_friendemail;
         private Label label3;

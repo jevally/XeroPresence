@@ -24,7 +24,6 @@ namespace XeroTest
             tb_friendpassword.Text = Settings.Default.password;
             cb_StartWithWindows.Checked = Settings.Default.windows;
             cb_HideInTray.Checked = Settings.Default.tray;
-            cb_ShowLevel.Checked = Settings.Default.level;
         }
 
         private static void InitializeDiscord()
@@ -169,6 +168,7 @@ namespace XeroTest
                     {
                         websiteText = reader.ReadToEnd();
                     }
+
                     dynamic jsonData = JsonConvert.DeserializeObject(websiteText);
 
 
@@ -181,8 +181,15 @@ namespace XeroTest
 
                     string _channel = jsonData.game.channel.name;
                     string _nickname = jsonData.info.name;
-                    string _clan = jsonData.info.clan.name;
-                    string _level = jsonData.info.progression.level.value;
+                    //string _clan = jsonData.info.clan.name;
+                    int _level = jsonData.info.progression.level.value;
+                    int _xp = jsonData.info.progression.level.progress.current;
+                    int _xprequired = jsonData.info.progression.level.progress.required;
+                    int _xppercentage = jsonData.info.progression.level.progress.percentage;
+                    int _pen = jsonData.currency.pen;
+                    int _zp = jsonData.currency.zp;
+                    int _gems = jsonData.currency.gems;
+                    bool _hasPremium = jsonData.info.premium.enabled;
                     var _roomstate = jsonData.game.room;
 
                     if (_roomstate != null)
@@ -200,7 +207,6 @@ namespace XeroTest
                         _map = jsonData.game.room.map.name;
                         _mapimage = jsonData.game.room.map.image;
 
-
                         if (_matchstate != null)
                         {
                             _gameState = jsonData.game.room.match.gameState.name;
@@ -212,10 +218,7 @@ namespace XeroTest
                             var _seconds = _gameTime % 60;
                             var _maxtimeminutes = _timelimit / 60;
                             var _maxtimeseconds = _timelimit % 60;
-                            if (_map == "Random")
-                                discord.UpdateLargeAsset("logo", $"Playing on {_map}");
-                            else
-                                discord.UpdateLargeAsset(_mapimage, $"Playing on {_map}");
+                            discord.UpdateLargeAsset(_mapimage, $"Playing on {_map}");
                             discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
 
                             if (_mode == "Touchdown" || _mode == "Deathmatch")
@@ -247,10 +250,8 @@ namespace XeroTest
                         }
                         else
                         {
-                            if (_map == "Random")
-                                discord.UpdateLargeAsset("logo", $"Playing on {_map}");
-                            else
-                                discord.UpdateLargeAsset(_mapimage, $"Playing on {_map}");
+
+                            discord.UpdateLargeAsset(_mapimage, $"Playing on {_map}");
                             discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
                             discord.UpdateState($"{_name} | Waiting");
                             DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
@@ -261,7 +262,9 @@ namespace XeroTest
                     }
                     else
                     {
+
                         discord.UpdateLargeAsset("logo", $"In Lobby");
+                        discord.UpdateSmallAsset("", $"");
                         discord.UpdateDetails($"{_nickname} » {_channel} » Lobby");
                         discord.UpdateState($"");
                         DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
@@ -274,7 +277,6 @@ namespace XeroTest
                 {
                     //Do nothing kekw
                 }
-                
             }
         }
 
@@ -284,7 +286,6 @@ namespace XeroTest
             Settings.Default.password = tb_friendpassword.Text;
             Settings.Default.windows = cb_StartWithWindows.Checked;
             Settings.Default.tray = cb_HideInTray.Checked;
-            Settings.Default.level = cb_ShowLevel.Checked;
             Settings.Default.Save();
         }
 
@@ -360,7 +361,6 @@ namespace XeroTest
             Settings.Default.password = tb_friendpassword.Text;
             Settings.Default.windows = cb_StartWithWindows.Checked;
             Settings.Default.tray = cb_HideInTray.Checked;
-            Settings.Default.level = cb_ShowLevel.Checked;
             Settings.Default.Save();
         }
 
