@@ -1,3 +1,5 @@
+![GitHub all releases](https://img.shields.io/github/downloads/dekirai/xeropresence/total)  
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/dekirai/xeropresence)
 # Xero Presence
 Discord Rich Presence for Xero  
 Every 10 seconds it updates your current game state
