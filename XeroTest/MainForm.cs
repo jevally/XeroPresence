@@ -63,7 +63,7 @@ namespace XeroPresence
                 client.DefaultRequestHeaders.Add("x-api-access-key-id", tb_accesskey.Text);
                 client.DefaultRequestHeaders.Add("x-api-secret-access-key", tb_accesskeysecret.Text);
 
-                var response = await client.GetAsync("https://xero.gg/api/self/status");
+                var response = await client.GetAsync($"https://xero.gg/api/self/status/v?time={DateTime.Now}");
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 dynamic jsonData = JsonConvert.DeserializeObject(responseContent);
@@ -131,7 +131,7 @@ namespace XeroPresence
                         {
                             int _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
                             int _scoreBeta = jsonData.game.room.match.modeData.score.beta;
-                            discord.UpdateState($"{_name} | ⏳{_gameTimeState} | 🎯{_scoreAlpha}-{_scoreBeta}");
+                            discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha}-{_scoreBeta}");
                             int remainingSeconds = (_timelimit / 2) - _roundTime;
                             discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
                             discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
