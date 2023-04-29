@@ -5,18 +5,20 @@ Discord Rich Presence for Xero
 Every 10 seconds it updates your current game state
 
 ## Information
-- You need to have Chrome 112 or higher installed in order to use this program
-- "Chromedriver.exe" always has to be in the same folder as Xero Presence.exe
+- Never ever share your "Access Key ID" and "Secret Access Key"
+- If you think someone has access to it, disable or delete the key immediately
 
 ## Requirements
 - Windows 10/11 64 Bit (Recommended)
 - [.NET 6 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- Discord on Windows
+- "Display current activity as a status message" enabled in Discord found under "Activity Privacy"
 
 ## Tutorial
-1. Enter your xero.gg credentials
-2. Click "Start Presence"
-3. If you have 2FA enabled, a popup will show where you have to enter your 2FA code
-4. Ignore step 3 if you don't have 2FA enabled
-5. After about 15 seconds, your presence should be visible on discord
+1. Head over to [xero.gg/settings/api](https://xero.gg/settings/api)
+2. Create a new Access Key and name it anything you want
+3. Enter the "Access Key ID" and "Secret Access Key" in the textboxes
+4. Click "Start Presence"
 
-![image](https://i.imgur.com/Ad5Is48.png)![image](https://i.imgur.com/B6PBxht.png)![image](https://i.imgur.com/gAASr2c.png)
+
+![image](https://i.imgur.com/45f7f5p.png)![image](https://i.imgur.com/B6PBxht.png)![image](https://i.imgur.com/gAASr2c.png)

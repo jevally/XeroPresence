@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XeroTest.Properties {
+namespace XeroPresence.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,48 +26,24 @@ namespace XeroTest.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string nickname {
+        public string accesskey {
             get {
-                return ((string)(this["nickname"]));
+                return ((string)(this["accesskey"]));
             }
             set {
-                this["nickname"] = value;
+                this["accesskey"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string email {
+        public string accesskeysecret {
             get {
-                return ((string)(this["email"]));
+                return ((string)(this["accesskeysecret"]));
             }
             set {
-                this["email"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string password {
-            get {
-                return ((string)(this["password"]));
-            }
-            set {
-                this["password"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool tray {
-            get {
-                return ((bool)(this["tray"]));
-            }
-            set {
-                this["tray"] = value;
+                this["accesskeysecret"] = value;
             }
         }
         
@@ -86,12 +62,12 @@ namespace XeroTest.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool level {
+        public bool tray {
             get {
-                return ((bool)(this["level"]));
+                return ((bool)(this["tray"]));
             }
             set {
-                this["level"] = value;
+                this["tray"] = value;
             }
         }
     }

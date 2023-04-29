@@ -9,6 +9,11 @@
     <AssemblyName>Xero Presence</AssemblyName>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <PlatformTarget>x64</PlatformTarget>
+    <FileVersion>2.1.0</FileVersion>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <Description>A Discord Rich Presence for Xero.</Description>
+    <Copyright>Dekirai © 2023</Copyright>
+    <PackageProjectUrl>https://github.com/Dekirai/XeroPresence</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,8 +34,6 @@
 
   <ItemGroup>
     <PackageReference Include="DiscordRichPresence" Version="1.1.3.18" />
-    <PackageReference Include="OpenQA.Selenium.Chrome.ChromeDriverExtensions" Version="1.2.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="112.0.5615.4900" />
   </ItemGroup>
 
   <ItemGroup>

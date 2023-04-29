@@ -1,4 +1,4 @@
-﻿namespace XeroTest
+﻿namespace XeroPresence
 {
     partial class MainForm
     {
@@ -33,14 +33,14 @@
             bt_login = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
             label1 = new Label();
-            tb_friendemail = new TextBox();
+            tb_accesskey = new TextBox();
             label3 = new Label();
-            tb_friendpassword = new TextBox();
+            tb_accesskeysecret = new TextBox();
+            notifyIcon = new NotifyIcon(components);
+            bt_save = new Button();
             groupBox1 = new GroupBox();
             cb_HideInTray = new CheckBox();
             cb_StartWithWindows = new CheckBox();
-            notifyIcon = new NotifyIcon(components);
-            bt_save = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -64,33 +64,49 @@
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(44, 15);
+            label1.Size = new Size(82, 15);
             label1.TabIndex = 7;
-            label1.Text = "E-Mail:";
+            label1.Text = "Access Key ID:";
             // 
-            // tb_friendemail
+            // tb_accesskey
             // 
-            tb_friendemail.Location = new Point(12, 27);
-            tb_friendemail.Name = "tb_friendemail";
-            tb_friendemail.Size = new Size(272, 23);
-            tb_friendemail.TabIndex = 1;
+            tb_accesskey.Location = new Point(12, 27);
+            tb_accesskey.Name = "tb_accesskey";
+            tb_accesskey.Size = new Size(272, 23);
+            tb_accesskey.TabIndex = 1;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(12, 53);
             label3.Name = "label3";
-            label3.Size = new Size(60, 15);
+            label3.Size = new Size(103, 15);
             label3.TabIndex = 9;
-            label3.Text = "Password:";
+            label3.Text = "Secret Access Key:";
             // 
-            // tb_friendpassword
+            // tb_accesskeysecret
             // 
-            tb_friendpassword.Location = new Point(12, 71);
-            tb_friendpassword.Name = "tb_friendpassword";
-            tb_friendpassword.Size = new Size(272, 23);
-            tb_friendpassword.TabIndex = 2;
-            tb_friendpassword.UseSystemPasswordChar = true;
+            tb_accesskeysecret.Location = new Point(12, 71);
+            tb_accesskeysecret.Name = "tb_accesskeysecret";
+            tb_accesskeysecret.Size = new Size(272, 23);
+            tb_accesskeysecret.TabIndex = 2;
+            tb_accesskeysecret.UseSystemPasswordChar = true;
+            // 
+            // notifyIcon
+            // 
+            notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
+            notifyIcon.Text = "Xero Presence";
+            notifyIcon.MouseClick += notifyIcon_MouseClick;
+            // 
+            // bt_save
+            // 
+            bt_save.Location = new Point(12, 177);
+            bt_save.Name = "bt_save";
+            bt_save.Size = new Size(272, 23);
+            bt_save.TabIndex = 11;
+            bt_save.Text = "Save Settings";
+            bt_save.UseVisualStyleBackColor = true;
+            bt_save.Click += bt_save_Click;
             // 
             // groupBox1
             // 
@@ -124,22 +140,6 @@
             cb_StartWithWindows.Text = "Start with Windows";
             cb_StartWithWindows.UseVisualStyleBackColor = true;
             // 
-            // notifyIcon
-            // 
-            notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
-            notifyIcon.Text = "Xero Presence";
-            notifyIcon.MouseClick += notifyIcon_MouseClick;
-            // 
-            // bt_save
-            // 
-            bt_save.Location = new Point(12, 177);
-            bt_save.Name = "bt_save";
-            bt_save.Size = new Size(272, 23);
-            bt_save.TabIndex = 11;
-            bt_save.Text = "Save Settings";
-            bt_save.UseVisualStyleBackColor = true;
-            bt_save.Click += bt_save_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -148,9 +148,9 @@
             Controls.Add(bt_save);
             Controls.Add(groupBox1);
             Controls.Add(label3);
-            Controls.Add(tb_friendpassword);
+            Controls.Add(tb_accesskeysecret);
             Controls.Add(label1);
-            Controls.Add(tb_friendemail);
+            Controls.Add(tb_accesskey);
             Controls.Add(bt_login);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -171,13 +171,13 @@
         private Button bt_login;
         private System.Windows.Forms.Timer timer1;
         private Label label1;
-        private TextBox tb_friendemail;
+        private TextBox tb_accesskey;
         private Label label3;
-        private TextBox tb_friendpassword;
-        private GroupBox groupBox1;
-        private CheckBox cb_StartWithWindows;
+        private TextBox tb_accesskeysecret;
         private NotifyIcon notifyIcon;
-        private CheckBox cb_HideInTray;
         private Button bt_save;
+        private GroupBox groupBox1;
+        private CheckBox cb_HideInTray;
+        private CheckBox cb_StartWithWindows;
     }
 }

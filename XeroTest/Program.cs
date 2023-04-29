@@ -1,4 +1,4 @@
-namespace XeroTest
+namespace XeroPresence
 {
     internal static class Program
     {
