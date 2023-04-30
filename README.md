@@ -2,7 +2,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/dekirai/xeropresence)
 # Xero Presence
 Discord Rich Presence for Xero  
-Every 10 seconds it updates your current game state
+Every 3 seconds it updates your current game state
 
 ## Information
 - Never ever share your "Access Key ID" and "Secret Access Key"

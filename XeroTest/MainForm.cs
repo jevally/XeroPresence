@@ -119,7 +119,7 @@ namespace XeroPresence
 
                 if (_roomstate != null)
                 {
-                    var _matchstate = jsonData.game.room.match;
+                    var _playerdata = jsonData.game.room.match.playerData;
                     int _id = jsonData.game.room.id;
                     string _name = jsonData.game.room.name;
                     int _timelimit = jsonData.game.room.timeLimit;
@@ -132,7 +132,7 @@ namespace XeroPresence
                     string _map = jsonData.game.room.map.name;
                     string _mapimage = jsonData.game.room.map.image;
 
-                    if (_matchstate != null)
+                    if (_playerdata != null)
                     {
                         string _gameState = jsonData.game.room.match.gameState.name;
                         string _gameTimeState = jsonData.game.room.match.gameTimeState.name;
