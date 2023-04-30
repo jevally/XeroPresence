@@ -72,9 +72,10 @@ namespace XeroPresence
                 if (_success == false)
                 {
                     string _reason = jsonData.text;
-                    MessageBox.Show($"Error while trying to read the API.\nReason:{_reason}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error while trying to read the API.\nReason: {_reason}\n\nPlease click on 'Start Presence' again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     bt_login.Enabled = true;
                     bt_login.Text = "Start Presence";
+                    discord.Deinitialize();
                     timer1.Stop();
                     return;
                 }
@@ -86,6 +87,14 @@ namespace XeroPresence
                     _discordLoggedIn = true;
                 }
                 bt_login.Text = "Logged in";
+
+                var _isOnline = jsonData.game.online;
+                var _isServer = jsonData.game.server;
+                var _isChannel = jsonData.game.channel;
+
+                if (_isOnline == null || _isServer == null || _isChannel == null)
+                    return;
+
                 string _channel = jsonData.game.channel.name;
                 string _nickname = jsonData.info.name;
                 int _level = jsonData.info.progression.level.value;
