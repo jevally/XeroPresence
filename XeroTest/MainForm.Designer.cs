@@ -39,6 +39,7 @@
             notifyIcon = new NotifyIcon(components);
             bt_save = new Button();
             groupBox1 = new GroupBox();
+            cb_ShowLevel = new CheckBox();
             cb_HideInTray = new CheckBox();
             cb_StartWithWindows = new CheckBox();
             groupBox1.SuspendLayout();
@@ -46,7 +47,7 @@
             // 
             // bt_login
             // 
-            bt_login.Location = new Point(12, 206);
+            bt_login.Location = new Point(12, 225);
             bt_login.Name = "bt_login";
             bt_login.Size = new Size(272, 23);
             bt_login.TabIndex = 0;
@@ -100,7 +101,7 @@
             // 
             // bt_save
             // 
-            bt_save.Location = new Point(12, 177);
+            bt_save.Location = new Point(12, 196);
             bt_save.Name = "bt_save";
             bt_save.Size = new Size(272, 23);
             bt_save.TabIndex = 11;
@@ -110,19 +111,30 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(cb_ShowLevel);
             groupBox1.Controls.Add(cb_HideInTray);
             groupBox1.Controls.Add(cb_StartWithWindows);
             groupBox1.Location = new Point(12, 101);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(272, 71);
+            groupBox1.Size = new Size(272, 91);
             groupBox1.TabIndex = 10;
             groupBox1.TabStop = false;
             groupBox1.Text = "Settings";
             // 
+            // cb_ShowLevel
+            // 
+            cb_ShowLevel.AutoSize = true;
+            cb_ShowLevel.Location = new Point(6, 18);
+            cb_ShowLevel.Name = "cb_ShowLevel";
+            cb_ShowLevel.Size = new Size(134, 19);
+            cb_ShowLevel.TabIndex = 7;
+            cb_ShowLevel.Text = "Show Level in Lobby";
+            cb_ShowLevel.UseVisualStyleBackColor = true;
+            // 
             // cb_HideInTray
             // 
             cb_HideInTray.AutoSize = true;
-            cb_HideInTray.Location = new Point(6, 46);
+            cb_HideInTray.Location = new Point(6, 68);
             cb_HideInTray.Name = "cb_HideInTray";
             cb_HideInTray.Size = new Size(88, 19);
             cb_HideInTray.TabIndex = 6;
@@ -133,7 +145,7 @@
             // cb_StartWithWindows
             // 
             cb_StartWithWindows.AutoSize = true;
-            cb_StartWithWindows.Location = new Point(6, 21);
+            cb_StartWithWindows.Location = new Point(6, 43);
             cb_StartWithWindows.Name = "cb_StartWithWindows";
             cb_StartWithWindows.Size = new Size(128, 19);
             cb_StartWithWindows.TabIndex = 5;
@@ -144,7 +156,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 234);
+            ClientSize = new Size(300, 256);
             Controls.Add(bt_save);
             Controls.Add(groupBox1);
             Controls.Add(label3);
@@ -179,5 +191,6 @@
         private GroupBox groupBox1;
         private CheckBox cb_HideInTray;
         private CheckBox cb_StartWithWindows;
+        private CheckBox cb_ShowLevel;
     }
 }

@@ -21,6 +21,7 @@ namespace XeroPresence
             tb_accesskeysecret.Text = Settings.Default.accesskeysecret;
             cb_StartWithWindows.Checked = Settings.Default.windows;
             cb_HideInTray.Checked = Settings.Default.tray;
+            cb_ShowLevel.Checked = Settings.Default.showlevel;
         }
 
         private static void InitializeDiscord()
@@ -75,9 +76,17 @@ namespace XeroPresence
                     MessageBox.Show($"Error while trying to read the API.\nReason: {_reason}\n\nPlease click on 'Start Presence' again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     bt_login.Enabled = true;
                     bt_login.Text = "Start Presence";
-                    discord.Deinitialize();
-                    timer1.Stop();
-                    return;
+                    try
+                    {
+                        discord.Deinitialize();
+                        timer1.Stop();
+                        return;
+                    }
+                    catch
+                    {
+                        timer1.Stop();
+                        return;
+                    }
                 }
 
                 if (_discordLoggedIn == false)
@@ -98,6 +107,7 @@ namespace XeroPresence
                 string _channel = jsonData.game.channel.name;
                 string _nickname = jsonData.info.name;
                 int _level = jsonData.info.progression.level.value;
+                string _levelimage = jsonData.info.progression.level.image;
                 int _xp = jsonData.info.progression.level.progress.current;
                 int _xprequired = jsonData.info.progression.level.progress.required;
                 int _xppercentage = jsonData.info.progression.level.progress.percentage;
@@ -140,7 +150,7 @@ namespace XeroPresence
                         {
                             int _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
                             int _scoreBeta = jsonData.game.room.match.modeData.score.beta;
-                            discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha}-{_scoreBeta}");
+                            discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
                             int remainingSeconds = (_timelimit / 2) - _roundTime;
                             discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
                             discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
@@ -180,8 +190,10 @@ namespace XeroPresence
                 }
                 else
                 {
-
-                    discord.UpdateLargeAsset("logo", $"In Lobby");
+                    if (cb_ShowLevel.Checked)
+                        discord.UpdateLargeAsset(_levelimage, $"Level {_level}");
+                    else
+                        discord.UpdateLargeAsset("logo", $"In Lobby");
                     discord.UpdateSmallAsset("", $"");
                     discord.UpdateDetails($"{_nickname} » {_channel}");
                     discord.UpdateState($"");
@@ -199,6 +211,7 @@ namespace XeroPresence
             Settings.Default.accesskeysecret = tb_accesskeysecret.Text;
             Settings.Default.windows = cb_StartWithWindows.Checked;
             Settings.Default.tray = cb_HideInTray.Checked;
+            Settings.Default.showlevel = cb_ShowLevel.Checked;
             Settings.Default.Save();
         }
 
@@ -274,6 +287,7 @@ namespace XeroPresence
             Settings.Default.accesskeysecret = tb_accesskeysecret.Text;
             Settings.Default.windows = cb_StartWithWindows.Checked;
             Settings.Default.tray = cb_HideInTray.Checked;
+            Settings.Default.showlevel = cb_ShowLevel.Checked;
             Settings.Default.Save();
         }
     }

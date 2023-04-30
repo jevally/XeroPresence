@@ -70,5 +70,17 @@ namespace XeroPresence.Properties {
                 this["tray"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showlevel {
+            get {
+                return ((bool)(this["showlevel"]));
+            }
+            set {
+                this["showlevel"] = value;
+            }
+        }
     }
 }
