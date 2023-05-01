@@ -21,4 +21,4 @@ Every 3 seconds it updates your current game state
 4. Click "Start Presence"
 
 
-![image](https://i.imgur.com/45f7f5p.png)![image](https://i.imgur.com/B6PBxht.png)![image](https://i.imgur.com/gAASr2c.png)
+![image](https://i.imgur.com/UoEm2PD.png)![image](https://i.imgur.com/dZ55ibp.png)
