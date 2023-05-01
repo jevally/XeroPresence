@@ -78,6 +78,7 @@ namespace XeroPresence
                     bt_login.Text = "Start Presence";
                     try
                     {
+                        _discordLoggedIn = false;
                         discord.Deinitialize();
                         timer1.Stop();
                         return;
