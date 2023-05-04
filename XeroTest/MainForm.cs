@@ -41,168 +41,175 @@ namespace XeroPresence
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
-            Process[] xero = Process.GetProcessesByName("xeroclient");
-
-            //We do not want to send requests to the API if the game isn't even running
-            if (xero.Length == 0)
+            try
             {
-                try
+                Process[] xero = Process.GetProcessesByName("xeroclient");
+
+                //We do not want to send requests to the API if the game isn't even running
+                if (xero.Length == 0)
                 {
-                    discord.Deinitialize();
-                    _discordLoggedIn = false;
-                    return;
-                }
-                catch
-                {
-                    return;
-                }
-            }
-            else
-            {
-                var client = new HttpClient();
-
-                client.DefaultRequestHeaders.Add("x-api-access-key-id", tb_accesskey.Text);
-                client.DefaultRequestHeaders.Add("x-api-secret-access-key", tb_accesskeysecret.Text);
-
-                var response = await client.GetAsync($"https://xero.gg/api/self/status/v?time={DateTime.Now}");
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                dynamic jsonData = JsonConvert.DeserializeObject(responseContent);
-
-                bool _success = jsonData.success;
-                if (_success == false)
-                {
-                    string _reason = jsonData.text;
-                    MessageBox.Show($"Error while trying to read the API.\nReason: {_reason}\n\nPlease click on 'Start Presence' again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    bt_login.Enabled = true;
-                    bt_login.Text = "Start Presence";
                     try
                     {
-                        _discordLoggedIn = false;
                         discord.Deinitialize();
-                        timer1.Stop();
+                        _discordLoggedIn = false;
                         return;
                     }
                     catch
                     {
-                        timer1.Stop();
                         return;
                     }
                 }
-
-                if (_discordLoggedIn == false)
+                else
                 {
-                    discord = new DiscordRpcClient("1092449168703901756");
-                    InitializeDiscord();
-                    _discordLoggedIn = true;
-                }
-                bt_login.Text = "Logged in";
+                    var client = new HttpClient();
 
-                var _isOnline = jsonData.game.online;
-                var _isServer = jsonData.game.server;
-                var _isChannel = jsonData.game.channel;
+                    client.DefaultRequestHeaders.Add("x-api-access-key-id", tb_accesskey.Text);
+                    client.DefaultRequestHeaders.Add("x-api-secret-access-key", tb_accesskeysecret.Text);
 
-                if (_isOnline == null || _isServer == null || _isChannel == null)
-                    return;
+                    var response = await client.GetAsync($"https://xero.gg/api/self/status/v?time={DateTime.Now}");
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-                string _channel = jsonData.game.channel.name;
-                string _nickname = jsonData.info.name;
-                int _level = jsonData.info.progression.level.value;
-                string _levelimage = jsonData.info.progression.level.image;
-                int _xp = jsonData.info.progression.level.progress.current;
-                int _xprequired = jsonData.info.progression.level.progress.required;
-                int _xppercentage = jsonData.info.progression.level.progress.percentage;
-                int _pen = jsonData.currency.pen;
-                int _zp = jsonData.currency.zp;
-                int _gems = jsonData.currency.gems;
-                bool _hasPremium = jsonData.info.premium.enabled;
-                var _roomstate = jsonData.game.room;
+                    dynamic jsonData = JsonConvert.DeserializeObject(responseContent);
 
-                if (_roomstate != null)
-                {
-                    var _playerdata = jsonData.game.room.match.playerData;
-                    int _id = jsonData.game.room.id;
-                    string _name = jsonData.game.room.name;
-                    int _timelimit = jsonData.game.room.timeLimit;
-                    int _scorelimit = jsonData.game.room.scoreLimit;
-                    bool _isfriendly = jsonData.game.room.isFriendly;
-                    bool _isPasswordProtected = jsonData.game.room.isPasswordProtected;
-                    int _playerlimit = jsonData.game.room.playerLimit;
-                    string _weaponlimit = jsonData.game.room.weaponLimit.fullName;
-                    string _mode = jsonData.game.room.mode.name;
-                    string _map = jsonData.game.room.map.name;
-                    string _mapimage = jsonData.game.room.map.image;
-
-                    if (_playerdata != null)
+                    bool _success = jsonData.success;
+                    if (_success == false)
                     {
-                        string _gameState = jsonData.game.room.match.gameState.name;
-                        string _gameTimeState = jsonData.game.room.match.gameTimeState.name;
-                        int _gameTime = jsonData.game.room.match.gameTime;
-                        int _roundTime = jsonData.game.room.match.roundTime;
-
-                        var _minutes = _gameTime / 60;
-                        var _seconds = _gameTime % 60;
-                        var _maxtimeminutes = _timelimit / 60;
-                        var _maxtimeseconds = _timelimit % 60;
-                        discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
-                        discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
-
-                        if (_mode == "Touchdown" || _mode == "Deathmatch")
+                        string _reason = jsonData.text;
+                        MessageBox.Show($"Error while trying to read the API.\nReason: {_reason}\n\nPlease click on 'Start Presence' again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        bt_login.Enabled = true;
+                        bt_login.Text = "Start Presence";
+                        try
                         {
-                            int _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
-                            int _scoreBeta = jsonData.game.room.match.modeData.score.beta;
-                            discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
-                            int remainingSeconds = (_timelimit / 2) - _roundTime;
-                            discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
-                            discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            _discordLoggedIn = false;
+                            discord.Deinitialize();
+                            timer1.Stop();
+                            return;
                         }
-                        if (_mode == "Battle Royal" || _mode == "Chaser")
+                        catch
                         {
-                            discord.UpdateState($"{_name} | {_gameState}");
-                            int remainingSeconds = _timelimit - _roundTime;
-                            discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
-                            discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            timer1.Stop();
+                            return;
                         }
+                    }
 
-                        if (_isPasswordProtected)
-                            discord.UpdateSmallAsset("lock", "This room is password protected");
+                    if (_discordLoggedIn == false)
+                    {
+                        discord = new DiscordRpcClient("1092449168703901756");
+                        InitializeDiscord();
+                        _discordLoggedIn = true;
+                    }
+                    bt_login.Text = "Logged in";
+
+                    var _isOnline = jsonData.game.online;
+                    var _isServer = jsonData.game.server;
+                    var _isChannel = jsonData.game.channel;
+
+                    if (_isOnline == null || _isServer == null || _isChannel == null)
+                        return;
+
+                    string _channel = jsonData.game.channel.name;
+                    string _nickname = jsonData.info.name;
+                    int _level = jsonData.info.progression.level.value;
+                    string _levelimage = jsonData.info.progression.level.image;
+                    int _xp = jsonData.info.progression.level.progress.current;
+                    int _xprequired = jsonData.info.progression.level.progress.required;
+                    int _xppercentage = jsonData.info.progression.level.progress.percentage;
+                    int _pen = jsonData.currency.pen;
+                    int _zp = jsonData.currency.zp;
+                    int _gems = jsonData.currency.gems;
+                    bool _hasPremium = jsonData.info.premium.enabled;
+                    var _roomstate = jsonData.game.room;
+
+                    if (_roomstate != null)
+                    {
+                        var _playerdata = jsonData.game.room.match.playerData;
+                        int _id = jsonData.game.room.id;
+                        string _name = jsonData.game.room.name;
+                        int _timelimit = jsonData.game.room.timeLimit;
+                        int _scorelimit = jsonData.game.room.scoreLimit;
+                        bool _isfriendly = jsonData.game.room.isFriendly;
+                        bool _isPasswordProtected = jsonData.game.room.isPasswordProtected;
+                        int _playerlimit = jsonData.game.room.playerLimit;
+                        string _weaponlimit = jsonData.game.room.weaponLimit.fullName;
+                        string _mode = jsonData.game.room.mode.name;
+                        string _map = jsonData.game.room.map.name;
+                        string _mapimage = jsonData.game.room.map.image;
+
+                        if (_playerdata != null)
+                        {
+                            string _gameState = jsonData.game.room.match.gameState.name;
+                            string _gameTimeState = jsonData.game.room.match.gameTimeState.name;
+                            int _gameTime = jsonData.game.room.match.gameTime;
+                            int _roundTime = jsonData.game.room.match.roundTime;
+
+                            var _minutes = _gameTime / 60;
+                            var _seconds = _gameTime % 60;
+                            var _maxtimeminutes = _timelimit / 60;
+                            var _maxtimeseconds = _timelimit % 60;
+                            discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                            discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+
+                            if (_mode == "Touchdown" || _mode == "Deathmatch")
+                            {
+                                int _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
+                                int _scoreBeta = jsonData.game.room.match.modeData.score.beta;
+                                discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
+                                int remainingSeconds = (_timelimit / 2) - _roundTime;
+                                discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
+                                discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            }
+                            if (_mode == "Battle Royal" || _mode == "Chaser")
+                            {
+                                discord.UpdateState($"{_name} | {_gameState}");
+                                int remainingSeconds = _timelimit - _roundTime;
+                                discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
+                                discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            }
+
+                            if (_isPasswordProtected)
+                                discord.UpdateSmallAsset("lock", "This room is password protected");
+                            else
+                                discord.UpdateSmallAsset("", "");
+
+                            DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
+                            buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
+
+                            discord.UpdateButtons(buttons);
+                        }
                         else
-                            discord.UpdateSmallAsset("", "");
-
-                        DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
-                        buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
-
-                        discord.UpdateButtons(buttons);
+                        {
+                            if (_isPasswordProtected)
+                                discord.UpdateSmallAsset("lock", "This room is password protected");
+                            else
+                                discord.UpdateSmallAsset("", "");
+                            discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                            discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+                            discord.UpdateState($"{_name} | Waiting");
+                            DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
+                            buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
+                            discord.UpdateClearTime();
+                            discord.UpdateButtons(buttons);
+                        }
                     }
                     else
                     {
-                        if (_isPasswordProtected)
-                            discord.UpdateSmallAsset("lock", "This room is password protected");
+                        if (cb_ShowLevel.Checked)
+                            discord.UpdateLargeAsset(_levelimage, $"Level {_level}");
                         else
-                            discord.UpdateSmallAsset("", "");
-                        discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
-                        discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
-                        discord.UpdateState($"{_name} | Waiting");
+                            discord.UpdateLargeAsset("logo", $"In Lobby");
+                        discord.UpdateSmallAsset("", $"");
+                        discord.UpdateDetails($"{_nickname} » {_channel}");
+                        discord.UpdateState($"");
                         DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
                         buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
                         discord.UpdateClearTime();
                         discord.UpdateButtons(buttons);
                     }
                 }
-                else
-                {
-                    if (cb_ShowLevel.Checked)
-                        discord.UpdateLargeAsset(_levelimage, $"Level {_level}");
-                    else
-                        discord.UpdateLargeAsset("logo", $"In Lobby");
-                    discord.UpdateSmallAsset("", $"");
-                    discord.UpdateDetails($"{_nickname} » {_channel}");
-                    discord.UpdateState($"");
-                    DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
-                    buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
-                    discord.UpdateClearTime();
-                    discord.UpdateButtons(buttons);
-                }
+            }
+            catch
+            {
+                //Do nothing
             }
         }
 
