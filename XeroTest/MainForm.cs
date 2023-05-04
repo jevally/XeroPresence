@@ -75,9 +75,15 @@ namespace XeroPresence
                     if (_success == false)
                     {
                         string _reason = jsonData.text;
+                        if (_reason == "Please wait a moment.")
+                            return;
                         MessageBox.Show($"Error while trying to read the API.\nReason: {_reason}\n\nPlease click on 'Start Presence' again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         bt_login.Enabled = true;
                         bt_login.Text = "Start Presence";
+                        this.Visible = true;
+                        this.ShowInTaskbar = true;
+                        notifyIcon.Visible = false;
+                        cb_HideInTray.Checked = false;
                         try
                         {
                             _discordLoggedIn = false;
