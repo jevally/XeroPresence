@@ -199,7 +199,7 @@ namespace XeroPresence
                             discord.UpdateLargeAsset("logo", $"In Lobby");
                         discord.UpdateSmallAsset("", $"");
                         discord.UpdateDetails($"{_nickname} » {_channel}");
-                        discord.UpdateState($"");
+                        discord.UpdateState($"Level {_level}, XP: {_xp.ToString("#,##0")}/{_xprequired.ToString("#,##0")} ({_xppercentage}%)");
                         DiscordRPC.Button[] buttons = new DiscordRPC.Button[1];
                         buttons[0] = new DiscordRPC.Button { Label = "View Profile", Url = $"https://xero.gg/player/{_nickname}" };
                         discord.UpdateClearTime();
