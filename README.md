@@ -7,7 +7,7 @@ Every 5 seconds it updates your current game state
 ## Information
 - Never ever share your "Access Key ID" and "Secret Access Key"
 - If you think someone has access to it, disable or delete the key immediately
-- Starting with windows causes the presence to not work, after a simple restart it work again. I can't find out why yet.
+- Starting with windows causes the presence to not work, after a simple restart it works again. I can't find out why yet.
 
 ## Requirements
 - Windows 10/11 64 Bit (Recommended)
