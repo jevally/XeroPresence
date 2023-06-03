@@ -4,7 +4,6 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using File = System.IO.File;
 using System.Text.RegularExpressions;
-using Microsoft.Win32;
 using IWshRuntimeLibrary;
 
 namespace XeroPresence
@@ -13,7 +12,6 @@ namespace XeroPresence
     {
         private static DiscordRpcClient discord;
         public static bool _discordLoggedIn = false;
-        public static bool _autostart = false;
         public MainForm()
         {
             InitializeComponent();
@@ -22,7 +20,6 @@ namespace XeroPresence
             cb_StartWithWindows.Checked = Settings.Default.windows;
             cb_HideInTray.Checked = Settings.Default.tray;
             cb_ShowLevel.Checked = Settings.Default.showlevel;
-            _autostart = Settings.Default.windows;
         }
 
         private static void InitializeDiscord()
