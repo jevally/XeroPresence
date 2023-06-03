@@ -151,6 +151,7 @@
             cb_StartWithWindows.TabIndex = 5;
             cb_StartWithWindows.Text = "Start with Windows";
             cb_StartWithWindows.UseVisualStyleBackColor = true;
+            cb_StartWithWindows.CheckedChanged += cb_StartWithWindows_CheckedChanged;
             // 
             // MainForm
             // 

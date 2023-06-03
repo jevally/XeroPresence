@@ -1,13 +1,11 @@
-﻿using System.Net;
-using DiscordRPC;
+﻿using DiscordRPC;
 using XeroPresence.Properties;
-using IWshRuntimeLibrary;
 using System.Diagnostics;
-using System;
 using Newtonsoft.Json;
 using File = System.IO.File;
 using System.Text.RegularExpressions;
-using System.Drawing;
+using Microsoft.Win32;
+using IWshRuntimeLibrary;
 
 namespace XeroPresence
 {
@@ -15,6 +13,7 @@ namespace XeroPresence
     {
         private static DiscordRpcClient discord;
         public static bool _discordLoggedIn = false;
+        public static bool _autostart = false;
         public MainForm()
         {
             InitializeComponent();
@@ -23,6 +22,7 @@ namespace XeroPresence
             cb_StartWithWindows.Checked = Settings.Default.windows;
             cb_HideInTray.Checked = Settings.Default.tray;
             cb_ShowLevel.Checked = Settings.Default.showlevel;
+            _autostart = Settings.Default.windows;
         }
 
         private static void InitializeDiscord()
@@ -51,6 +51,7 @@ namespace XeroPresence
                 //We do not want to send requests to the API if the game isn't even running
                 if (xero.Length == 0)
                 {
+                    bt_login.Text = "Waiting for Xero...";
                     if (_discordLoggedIn == true)
                     {
                         try
@@ -84,6 +85,8 @@ namespace XeroPresence
                     var responseContent = await response.Content.ReadAsStringAsync();
 
                     dynamic jsonData = JsonConvert.DeserializeObject(responseContent);
+
+                    string exePath = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName).Replace("XeroPresence.exe", "");
 
                     bool _success = jsonData.success;
                     if (_success == false)
@@ -121,8 +124,8 @@ namespace XeroPresence
                     if (_isOnline == null || _isServer == null || _isChannel == null)
                         return;
 
-                    if (File.Exists("config.json"))
-                        customtext = File.ReadAllText("config.json");
+                    if (File.Exists(exePath + "/config.json"))
+                        customtext = File.ReadAllText(exePath + "/config.json");
 
                     string _channel = jsonData.game.channel.name;
                     string _nickname = jsonData.info.name;
@@ -772,7 +775,7 @@ namespace XeroPresence
         private void cb_StartWithWindows_CheckedChanged(object sender, EventArgs e)
         {
             string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string shortcutPath = Path.Combine(startupFolder, "Xero Presence.lnk");
+            string shortcutPath = Path.Combine(startupFolder, "XeroPresence.lnk");
 
             if (cb_StartWithWindows.Checked)
             {
