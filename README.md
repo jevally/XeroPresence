@@ -7,6 +7,7 @@ Every 5 seconds it updates your current game state
 ## Information
 - Never ever share your "Access Key ID" and "Secret Access Key"
 - If you think someone has access to it, disable or delete the key immediately
+- A documentation to customize your presence with a config.json file can be found [here](https://github.com/Dekirai/XeroPresence/blob/main/DOCUMENTATION.md)
 
 ## Requirements
 - Windows 10/11 64 Bit (Recommended)

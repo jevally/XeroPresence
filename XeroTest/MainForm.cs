@@ -5,6 +5,11 @@ using Newtonsoft.Json;
 using File = System.IO.File;
 using System.Text.RegularExpressions;
 using IWshRuntimeLibrary;
+using System.Drawing;
+using System.Security.Cryptography;
+using System.Threading.Channels;
+using System.Xml.Linq;
+using System.Reflection;
 
 namespace XeroPresence
 {
@@ -12,6 +17,41 @@ namespace XeroPresence
     {
         private static DiscordRpcClient discord;
         public static bool _discordLoggedIn = false;
+
+        public static int _pen = 0;
+        public static int _zp = 0;
+        public static int _gems = 0;
+        public static string _nickname = "";
+        public static int _level = 0;
+        public static string _levelimage = "";
+        public static int _xp = 0;
+        public static int _xprequired = 0;
+        public static int _xppercentage = 0;
+        public static int _xptotal = 0;
+        public static string _channel = "";
+        public static int _id = 0;
+        public static string _name = "";
+        public static int _scorelimit = 0;
+        public static int _playerlimit = 0;
+        public static string _mode = "";
+        public static string _map = "";
+        public static string _mapimage = "";
+        public static int _scoreAlpha = 0;
+        public static int _scoreBeta = 0;
+        public static string _team = "";
+        public static string _status = "";
+        public static int _ping = 0;
+        public static int _totalScore = 0;
+        public static int _score = 0;
+        public static int _kills = 0;
+        public static int _goals = 0;
+        public static int _deaths = 0;
+        public static string _gameTimeState = "";
+        public static string _gameState = "";
+        public static int _wins = 0;
+        public static int _chaserCount = 0;
+        public static int _survived = 0;
+
         public MainForm()
         {
             InitializeComponent();
@@ -83,7 +123,8 @@ namespace XeroPresence
 
                     dynamic jsonData = JsonConvert.DeserializeObject(responseContent);
 
-                    string exePath = Path.GetFullPath(Process.GetCurrentProcess().MainModule.FileName).Replace("XeroPresence.exe", "");
+                    string assemblyPath = Process.GetCurrentProcess().MainModule.FileName;
+                    string exePath = Path.GetDirectoryName(assemblyPath);
 
                     bool _success = jsonData.success;
                     if (_success == false)
@@ -124,41 +165,42 @@ namespace XeroPresence
                     if (File.Exists(exePath + "/config.json"))
                         customtext = File.ReadAllText(exePath + "/config.json");
 
-                    string _channel = jsonData.game.channel.name;
-                    string _nickname = jsonData.info.name;
-                    int _level = jsonData.info.progression.level.value;
-                    string _levelimage = jsonData.info.progression.level.image;
-                    int _xp = jsonData.info.progression.level.progress.current;
-                    int _xprequired = jsonData.info.progression.level.progress.required;
-                    int _xppercentage = jsonData.info.progression.level.progress.percentage;
-                    int _xptotal = jsonData.info.progression.xp;
-                    int _pen = jsonData.currency.pen;
-                    int _zp = jsonData.currency.zp;
-                    int _gems = jsonData.currency.gems;
-                    bool _hasPremium = jsonData.info.premium.enabled;
+                    _channel = jsonData.game.channel.name;
+                    _nickname = jsonData.info.name;
+                    _level = jsonData.info.progression.level.value;
+                    _levelimage = jsonData.info.progression.level.image;
+                    _xp = jsonData.info.progression.level.progress.current;
+                    _xprequired = jsonData.info.progression.level.progress.required;
+                    _xppercentage = jsonData.info.progression.level.progress.percentage;
+                    _xptotal = jsonData.info.progression.xp;
+                    _pen = jsonData.currency.pen;
+                    _zp = jsonData.currency.zp;
+                    _gems = jsonData.currency.gems;
                     var _roomstate = jsonData.game.room;
 
                     if (_roomstate != null)
                     {
                         var _playerdata = jsonData.game.room.match.playerData;
-                        int _id = jsonData.game.room.id;
-                        string _name = jsonData.game.room.name;
+                        _id = jsonData.game.room.id;
+                        _name = jsonData.game.room.name;
                         int _timelimit = jsonData.game.room.timeLimit;
-                        int _scorelimit = jsonData.game.room.scoreLimit;
+                        _scorelimit = jsonData.game.room.scoreLimit;
                         bool _isfriendly = jsonData.game.room.isFriendly;
                         bool _isPasswordProtected = jsonData.game.room.isPasswordProtected;
-                        int _playerlimit = jsonData.game.room.playerLimit;
-                        string _weaponlimit = jsonData.game.room.weaponLimit.fullName;
-                        string _mode = jsonData.game.room.mode.name;
-                        string _map = jsonData.game.room.map.name;
-                        string _mapimage = jsonData.game.room.map.image;
+                        _playerlimit = jsonData.game.room.playerLimit;
+                        _mode = jsonData.game.room.mode.name;
+                        _map = jsonData.game.room.map.name;
+                        _mapimage = jsonData.game.room.map.image;
 
                         if (_playerdata != null)
                         {
-                            string _gameState = jsonData.game.room.match.gameState.name;
-                            string _gameTimeState = jsonData.game.room.match.gameTimeState.name;
+                            _gameState = jsonData.game.room.match.gameState.name;
+                            _gameTimeState = jsonData.game.room.match.gameTimeState.name;
                             int _gameTime = jsonData.game.room.match.gameTime;
                             int _roundTime = jsonData.game.room.match.roundTime;
+                            _ping = jsonData.game.room.match.playerData.ping;
+                            _status = jsonData.game.room.match.playerData.state.name;
+                            _team = jsonData.game.room.match.playerData.team.name;
 
                             var _minutes = _gameTime / 60;
                             var _seconds = _gameTime % 60;
@@ -167,18 +209,218 @@ namespace XeroPresence
                             discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
                             discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
 
-                            if (_mode == "Touchdown" || _mode == "Deathmatch")
+                            if (_mode == "Touchdown")
                             {
-                                int _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
-                                int _scoreBeta = jsonData.game.room.match.modeData.score.beta;
-                                discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
+                                _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
+                                _scoreBeta = jsonData.game.room.match.modeData.score.beta;
+                                _totalScore = jsonData.game.room.match.playerData.record.totalScore;
+                                _kills = jsonData.game.room.match.playerData.record.kills;
+                                _goals = jsonData.game.room.match.playerData.record.goalsScore;
+                                _deaths = jsonData.game.room.match.playerData.record.deaths;
+
+                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                bool _overwritedetails = _customtext.Touchdown.OverwriteDetails;
+                                bool _overwritestate = _customtext.Touchdown.OverwriteState;
+                                bool _overwritelargeasset = _customtext.Touchdown.OverwriteLargeAsset;
+                                bool _overwritesmallasset = _customtext.Touchdown.OverwriteSmallAsset;
+
+                                string _details = _customtext.Touchdown.Details;
+                                string _state = _customtext.Touchdown.State;
+                                string _largeasseturl = _customtext.Touchdown.LargeAssetURL;
+                                string _largeassettext = _customtext.Touchdown.LargeAssetText;
+                                string _smallasseturl = _customtext.Touchdown.SmallAssetURL;
+                                string _smallassettext = _customtext.Touchdown.SmallAssetText;
+
+                                string _newdetails = ReplaceTags.TD(_details);
+                                string _newstate = ReplaceTags.TD(_state);
+                                string _newlargeasseturl = ReplaceTags.TD(_largeasseturl);
+                                string _newlargeassettext = ReplaceTags.TD(_largeassettext);
+                                string _newsmallasseturl = ReplaceTags.TD(_smallasseturl);
+                                string _newsmallassettext = ReplaceTags.TD(_smallassettext);
+
+                                if (_overwritesmallasset)
+                                    discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
+                                else
+                                {
+                                    if (_isPasswordProtected)
+                                        discord.UpdateSmallAsset("lock", "This room is password protected");
+                                    else
+                                        discord.UpdateSmallAsset("", "");
+                                }
+                                if (_overwritelargeasset)
+                                    discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
+                                else
+                                    discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                                if (_overwritedetails)
+                                    discord.UpdateDetails(_newdetails);
+                                else
+                                    discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+                                if (_overwritestate)
+                                    discord.UpdateState(_newstate);
+                                else
+                                    discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
+
                                 int remainingSeconds = (_timelimit / 2) - _roundTime;
                                 discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
                                 discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
                             }
-                            if (_mode == "Battle Royal" || _mode == "Chaser")
+                            else if (_mode == "Deathmatch")
                             {
-                                discord.UpdateState($"{_name} | {_gameState}");
+                                _scoreAlpha = jsonData.game.room.match.modeData.score.alpha;
+                                _scoreBeta = jsonData.game.room.match.modeData.score.beta;
+                                _totalScore = jsonData.game.room.match.playerData.record.totalScore;
+                                _kills = jsonData.game.room.match.playerData.record.kills;
+                                _deaths = jsonData.game.room.match.playerData.record.deaths;
+
+                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                bool _overwritedetails = _customtext.Deathmatch.OverwriteDetails;
+                                bool _overwritestate = _customtext.Deathmatch.OverwriteState;
+                                bool _overwritelargeasset = _customtext.Deathmatch.OverwriteLargeAsset;
+                                bool _overwritesmallasset = _customtext.Deathmatch.OverwriteSmallAsset;
+
+                                string _details = _customtext.Deathmatch.Details;
+                                string _state = _customtext.Deathmatch.State;
+                                string _largeasseturl = _customtext.Deathmatch.LargeAssetURL;
+                                string _largeassettext = _customtext.Deathmatch.LargeAssetText;
+                                string _smallasseturl = _customtext.Deathmatch.SmallAssetURL;
+                                string _smallassettext = _customtext.Deathmatch.SmallAssetText;
+
+                                string _newdetails = ReplaceTags.DM(_details);
+                                string _newstate = ReplaceTags.DM(_state);
+                                string _newlargeasseturl = ReplaceTags.DM(_largeasseturl);
+                                string _newlargeassettext = ReplaceTags.DM(_largeassettext);
+                                string _newsmallasseturl = ReplaceTags.DM(_smallasseturl);
+                                string _newsmallassettext = ReplaceTags.DM(_smallassettext);
+
+                                if (_overwritesmallasset)
+                                    discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
+                                else
+                                {
+                                    if (_isPasswordProtected)
+                                        discord.UpdateSmallAsset("lock", "This room is password protected");
+                                    else
+                                        discord.UpdateSmallAsset("", "");
+                                }
+                                if (_overwritelargeasset)
+                                    discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
+                                else
+                                    discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                                if (_overwritedetails)
+                                    discord.UpdateDetails(_newdetails);
+                                else
+                                    discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+                                if (_overwritestate)
+                                    discord.UpdateState(_newstate);
+                                else
+                                    discord.UpdateState($"{_name} | {_gameTimeState} | {_scoreAlpha} - {_scoreBeta}");
+
+                                int remainingSeconds = (_timelimit / 2) - _roundTime;
+                                discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
+                                discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            }
+                            else if (_mode == "Battle Royal")
+                            {
+                                _totalScore = jsonData.game.room.match.playerData.record.totalScore;
+                                _kills = jsonData.game.room.match.playerData.record.kills;
+                                _deaths = jsonData.game.room.match.playerData.record.deaths;
+
+                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                bool _overwritedetails = _customtext.BattleRoyal.OverwriteDetails;
+                                bool _overwritestate = _customtext.BattleRoyal.OverwriteState;
+                                bool _overwritelargeasset = _customtext.BattleRoyal.OverwriteLargeAsset;
+                                bool _overwritesmallasset = _customtext.BattleRoyal.OverwriteSmallAsset;
+
+                                string _details = _customtext.BattleRoyal.Details;
+                                string _state = _customtext.BattleRoyal.State;
+                                string _largeasseturl = _customtext.BattleRoyal.LargeAssetURL;
+                                string _largeassettext = _customtext.BattleRoyal.LargeAssetText;
+                                string _smallasseturl = _customtext.BattleRoyal.SmallAssetURL;
+                                string _smallassettext = _customtext.BattleRoyal.SmallAssetText;
+
+                                string _newdetails = ReplaceTags.BR(_details);
+                                string _newstate = ReplaceTags.BR(_state);
+                                string _newlargeasseturl = ReplaceTags.BR(_largeasseturl);
+                                string _newlargeassettext = ReplaceTags.BR(_largeassettext);
+                                string _newsmallasseturl = ReplaceTags.BR(_smallasseturl);
+                                string _newsmallassettext = ReplaceTags.BR(_smallassettext);
+
+                                if (_overwritesmallasset)
+                                    discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
+                                else
+                                {
+                                    if (_isPasswordProtected)
+                                        discord.UpdateSmallAsset("lock", "This room is password protected");
+                                    else
+                                        discord.UpdateSmallAsset("", "");
+                                }
+                                if (_overwritelargeasset)
+                                    discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
+                                else
+                                    discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                                if (_overwritedetails)
+                                    discord.UpdateDetails(_newdetails);
+                                else
+                                    discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+                                if (_overwritestate)
+                                    discord.UpdateState(_newstate);
+                                else
+                                    discord.UpdateState($"{_name} | {_gameState}");
+
+                                int remainingSeconds = _timelimit - _roundTime;
+                                discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
+                                discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
+                            }
+                            else if (_mode == "Chaser")
+                            {
+                                _totalScore = jsonData.game.room.match.playerData.record.totalScore;
+                                _kills = jsonData.game.room.match.playerData.record.kills;
+                                _deaths = jsonData.game.room.match.playerData.record.deaths;
+                                _chaserCount = jsonData.game.room.match.playerData.record.chaserCount;
+                                _survived = jsonData.game.room.match.playerData.record.survived;
+                                _wins = jsonData.game.room.match.playerData.record.wins;
+
+                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                bool _overwritedetails = _customtext.Chaser.OverwriteDetails;
+                                bool _overwritestate = _customtext.Chaser.OverwriteState;
+                                bool _overwritelargeasset = _customtext.Chaser.OverwriteLargeAsset;
+                                bool _overwritesmallasset = _customtext.Chaser.OverwriteSmallAsset;
+
+                                string _details = _customtext.Chaser.Details;
+                                string _state = _customtext.Chaser.State;
+                                string _largeasseturl = _customtext.Chaser.LargeAssetURL;
+                                string _largeassettext = _customtext.Chaser.LargeAssetText;
+                                string _smallasseturl = _customtext.Chaser.SmallAssetURL;
+                                string _smallassettext = _customtext.Chaser.SmallAssetText;
+
+                                string _newdetails = ReplaceTags.CH(_details);
+                                string _newstate = ReplaceTags.CH(_state);
+                                string _newlargeasseturl = ReplaceTags.CH(_largeasseturl);
+                                string _newlargeassettext = ReplaceTags.CH(_largeassettext);
+                                string _newsmallasseturl = ReplaceTags.CH(_smallasseturl);
+                                string _newsmallassettext = ReplaceTags.CH(_smallassettext);
+
+                                if (_overwritesmallasset)
+                                    discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
+                                else
+                                {
+                                    if (_isPasswordProtected)
+                                        discord.UpdateSmallAsset("lock", "This room is password protected");
+                                    else
+                                        discord.UpdateSmallAsset("", "");
+                                }
+                                if (_overwritelargeasset)
+                                    discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
+                                else
+                                    discord.UpdateLargeAsset(_mapimage, $"Playing on {_map} ({_mode})");
+                                if (_overwritedetails)
+                                    discord.UpdateDetails(_newdetails);
+                                else
+                                    discord.UpdateDetails($"{_nickname} » {_channel} » #{_id}");
+                                if (_overwritestate)
+                                    discord.UpdateState(_newstate);
+                                else
+                                    discord.UpdateState($"{_name} | {_gameState}");
+
                                 int remainingSeconds = _timelimit - _roundTime;
                                 discord.UpdateStartTime(DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(_roundTime)));
                                 discord.UpdateEndTime(DateTime.UtcNow.AddSeconds(remainingSeconds));
@@ -196,9 +438,6 @@ namespace XeroPresence
                         }
                         else
                         {
-                            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage)\]";
-                            Regex regex = new Regex(pattern);
-
                             dynamic _customtext = JsonConvert.DeserializeObject(customtext);
                             bool _overwritedetails = _customtext.Room.OverwriteDetails;
                             bool _overwritestate = _customtext.Room.OverwriteState;
@@ -212,281 +451,12 @@ namespace XeroPresence
                             string _smallasseturl = _customtext.Room.SmallAssetURL;
                             string _smallassettext = _customtext.Room.SmallAssetText;
 
-                            string _newdetails = regex.Replace(_details, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
-
-                            string _newstate = regex.Replace(_state, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
-
-                            string _newlargeasseturl = regex.Replace(_largeasseturl, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
-
-                            string _newlargeassettext = regex.Replace(_largeassettext, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
-
-                            string _newsmallasseturl = regex.Replace(_smallasseturl, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
-
-                            string _newsmallassettext = regex.Replace(_smallassettext, match =>
-                            {
-                                string tag = match.Groups[1].Value;
-                                switch (tag)
-                                {
-                                    case "PEN":
-                                        return _pen.ToString("#,##0");
-                                    case "ZP":
-                                        return _zp.ToString("#,##0");
-                                    case "Gems":
-                                        return _gems.ToString("#,##0");
-                                    case "Username":
-                                        return _nickname;
-                                    case "Level":
-                                        return _level.ToString();
-                                    case "LevelImage":
-                                        return _levelimage;
-                                    case "XP":
-                                        return _xp.ToString("#,##0");
-                                    case "XPRequired":
-                                        return _xprequired.ToString("#,##0");
-                                    case "XPPercentage":
-                                        return _xppercentage.ToString();
-                                    case "TotalXP":
-                                        return _xptotal.ToString("#,##0");
-                                    case "Channel":
-                                        return _channel;
-                                    case "RoomID":
-                                        return _id.ToString();
-                                    case "RoomName":
-                                        return _name;
-                                    case "ScoreLimit":
-                                        return _scorelimit.ToString();
-                                    case "PlayerLimit":
-                                        return _playerlimit.ToString();
-                                    case "Mode":
-                                        return _mode;
-                                    case "Map":
-                                        return _map;
-                                    case "MapImage":
-                                        return _mapimage;
-                                    default:
-                                        return match.Value;
-                                }
-                            });
+                            string _newdetails = ReplaceTags.Room(_details);
+                            string _newstate = ReplaceTags.Room(_state);
+                            string _newlargeasseturl = ReplaceTags.Room(_largeasseturl);
+                            string _newlargeassettext = ReplaceTags.Room(_largeassettext);
+                            string _newsmallasseturl = ReplaceTags.Room(_smallasseturl);
+                            string _newsmallassettext = ReplaceTags.Room(_smallassettext);
 
                             if (_overwritesmallasset)
                                 discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -517,9 +487,6 @@ namespace XeroPresence
                     }
                     else
                     {
-                        string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel)\]";
-                        Regex regex = new Regex(pattern);
-
                         dynamic _customtext = JsonConvert.DeserializeObject(customtext);
                         bool _overwritedetails = _customtext.Lobby.OverwriteDetails;
                         bool _overwritestate = _customtext.Lobby.OverwriteState;
@@ -533,197 +500,12 @@ namespace XeroPresence
                         string _smallasseturl = _customtext.Lobby.SmallAssetURL;
                         string _smallassettext = _customtext.Lobby.SmallAssetText;
 
-                        string _newdetails = regex.Replace(_details, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
-
-                        string _newstate = regex.Replace(_state, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
-
-                        string _newlargeasseturl = regex.Replace(_largeasseturl, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
-
-                        string _newlargeassettext = regex.Replace(_largeassettext, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
-
-                        string _newsmallasseturl = regex.Replace(_smallasseturl, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
-
-                        string _newsmallassettext = regex.Replace(_smallassettext, match =>
-                        {
-                            string tag = match.Groups[1].Value;
-                            switch (tag)
-                            {
-                                case "PEN":
-                                    return _pen.ToString("#,##0");
-                                case "ZP":
-                                    return _zp.ToString("#,##0");
-                                case "Gems":
-                                    return _gems.ToString("#,##0");
-                                case "Username":
-                                    return _nickname;
-                                case "Level":
-                                    return _level.ToString();
-                                case "LevelImage":
-                                    return _levelimage;
-                                case "XP":
-                                    return _xp.ToString("#,##0");
-                                case "XPRequired":
-                                    return _xprequired.ToString("#,##0");
-                                case "XPPercentage":
-                                    return _xppercentage.ToString();
-                                case "TotalXP":
-                                    return _xptotal.ToString("#,##0");
-                                case "Channel":
-                                    return _channel;
-                                default:
-                                    return match.Value;
-                            }
-                        });
+                        string _newdetails = ReplaceTags.Lobby(_details);
+                        string _newstate = ReplaceTags.Lobby(_state);
+                        string _newlargeasseturl = ReplaceTags.Lobby(_largeasseturl);
+                        string _newlargeassettext = ReplaceTags.Lobby(_largeassettext);
+                        string _newsmallasseturl = ReplaceTags.Lobby(_smallasseturl);
+                        string _newsmallassettext = ReplaceTags.Lobby(_smallassettext);
 
                         if (_overwritelargeasset)
                             discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
