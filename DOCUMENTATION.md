@@ -84,10 +84,10 @@ The file should be in the same directory as XeroPresence.exe
 
 | Tag  | Description | Usable in? |
 | ------------- | ------------- | ------------- |
-| [PEN]  | Displays your amount of PEN  | Everywhere  | 
-| [ZP]  | Displays your amount of ZP  | Everywhere  | 
-| [Gems]  | Displays your amount of Gems  | Everywhere  | 
-| [Username]  | Displays your Username  | Everywhere  | 
+| [PEN]  | Prints your amount of PEN  | Everywhere  | 
+| [ZP]  | Prints your amount of ZP  | Everywhere  | 
+| [Gems]  | Prints your amount of Gems  | Everywhere  | 
+| [Username]  | Prints your Username  | Everywhere  | 
 | [Level]  | Prints your current Level  | Everywhere  | 
 | [LevelImage]  | Prints the image of your level as URL | Everywhere  | 
 | [XP]  | Prints your current XP  | Everywhere  | 
