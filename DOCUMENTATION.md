@@ -68,11 +68,11 @@ The file should be in the same directory as XeroPresence.exe
    },
    "BattleRoyal":{
       "OverwriteDetails":false,
-      "OverwriteState":true,
+      "OverwriteState":false,
       "OverwriteLargeAsset":false,
       "OverwriteSmallAsset":false,
       "Details":"",
-      "State":"My ping is [Ping]",
+      "State":"",
       "LargeAssetURL":"",
       "LargeAssetText":"",
       "SmallAssetURL":"",
