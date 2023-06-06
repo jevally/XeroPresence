@@ -31,11 +31,11 @@ The file should be in the same directory as XeroPresence.exe
       "SmallAssetText":""
    },
    "Touchdown":{
-      "OverwriteDetails":true,
+      "OverwriteDetails":false,
       "OverwriteState":false,
       "OverwriteLargeAsset":false,
       "OverwriteSmallAsset":false,
-      "Details":"I'm in team [Team] and have a score of [TotalScore]",
+      "Details":"",
       "State":"",
       "LargeAssetURL":"",
       "LargeAssetText":"",
