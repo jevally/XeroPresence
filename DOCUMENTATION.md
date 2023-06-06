@@ -108,7 +108,7 @@ The file should be in the same directory as XeroPresence.exe
 | [ScoreBeta] | Prints the current score of team beta | Match (TD & DM) |
 | [Team] | Prints the current team you are playing on | Match (TD & DM) |
 | [State] | Prints your current state (Alive, Dead...) | Match (All modes) | 
-| [Ping] | Prints your current ping to the match | Match (All modes) |
+| [Ping] | Prints your current ping to the room | Match (All modes) |
 | [TotalScore] | Prints your total score obtained in the match | Match (All modes) | 
 | [Kills] | Prints your total amount of kills done in the match | Match (All modes) |
 | [Goals] | Prints your amount of touch downs done in the match | Match (TD) |
