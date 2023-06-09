@@ -7,7 +7,7 @@
       "Details":"[Username] ([XP] / [XPRequired] XP)",
       "State":"In Lobby ([Channel])",
       "LargeAssetURL":"https://xero.gg/assets/img/grade/xero/50/[Level].png",
-      "LargeAssetText":"Level ",
+      "LargeAssetText":"Level [Level]",
       "SmallAssetURL":"",
       "SmallAssetText":""
    },
