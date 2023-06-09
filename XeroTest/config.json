@@ -1,0 +1,74 @@
+{
+   "Lobby":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"[Username] ([XP] / [XPRequired] XP)",
+      "State":"In Lobby ([Channel])",
+      "LargeAssetURL":"https://xero.gg/assets/img/grade/xero/50/[Level].png",
+      "LargeAssetText":"Level ",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   },
+   "Room":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"[Username] is waiting in Room #[RoomID] ([PlayerCount]/[PlayerLimit])",
+      "State":"[RoomName] - [Map]",
+      "LargeAssetURL":"[MapImage]",
+      "LargeAssetText":"[Map]",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   },
+   "Touchdown":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"I'm in team [Team] and have a score of [TotalScore]",
+      "State":"",
+      "LargeAssetURL":"",
+      "LargeAssetText":"",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   },
+   "Deathmatch":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"Room #[RoomID] ([PlayerCount]/[PlayerLimit]) - K/D: [Kills]/[Deaths]",
+      "State":"",
+      "LargeAssetURL":"",
+      "LargeAssetText":"",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   },
+   "Chaser":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"",
+      "State":"",
+      "LargeAssetURL":"",
+      "LargeAssetText":"",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   },
+   "BattleRoyal":{
+      "OverwriteDetails":false,
+      "OverwriteState":false,
+      "OverwriteLargeAsset":false,
+      "OverwriteSmallAsset":false,
+      "Details":"",
+      "State":"My ping is [Ping]",
+      "LargeAssetURL":"",
+      "LargeAssetText":"",
+      "SmallAssetURL":"",
+      "SmallAssetText":""
+   }
+}
