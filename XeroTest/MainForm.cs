@@ -3,13 +3,7 @@ using XeroPresence.Properties;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using File = System.IO.File;
-using System.Text.RegularExpressions;
 using IWshRuntimeLibrary;
-using System.Drawing;
-using System.Security.Cryptography;
-using System.Threading.Channels;
-using System.Xml.Linq;
-using System.Reflection;
 
 namespace XeroPresence
 {
@@ -33,6 +27,7 @@ namespace XeroPresence
         public static string _name = "";
         public static int _scorelimit = 0;
         public static int _playerlimit = 0;
+        public static int _playercount = 0;
         public static string _mode = "";
         public static string _map = "";
         public static string _mapimage = "";
@@ -55,11 +50,6 @@ namespace XeroPresence
         public MainForm()
         {
             InitializeComponent();
-            tb_accesskey.Text = Settings.Default.accesskey;
-            tb_accesskeysecret.Text = Settings.Default.accesskeysecret;
-            cb_StartWithWindows.Checked = Settings.Default.windows;
-            cb_HideInTray.Checked = Settings.Default.tray;
-            cb_ShowLevel.Checked = Settings.Default.showlevel;
         }
 
         private static void InitializeDiscord()
@@ -188,9 +178,12 @@ namespace XeroPresence
                         bool _isfriendly = jsonData.game.room.isFriendly;
                         bool _isPasswordProtected = jsonData.game.room.isPasswordProtected;
                         _playerlimit = jsonData.game.room.playerLimit;
+                        _playercount = jsonData.game.room.playerCount;
                         _mode = jsonData.game.room.mode.name;
                         _map = jsonData.game.room.map.name;
                         _mapimage = jsonData.game.room.map.image;
+                        _ping = jsonData.game.room.match.playerData.ping;
+                        _team = jsonData.game.room.match.playerData.team.name;
 
                         if (_playerdata != null)
                         {
@@ -198,9 +191,7 @@ namespace XeroPresence
                             _gameTimeState = jsonData.game.room.match.gameTimeState.name;
                             int _gameTime = jsonData.game.room.match.gameTime;
                             int _roundTime = jsonData.game.room.match.roundTime;
-                            _ping = jsonData.game.room.match.playerData.ping;
                             _status = jsonData.game.room.match.playerData.state.name;
-                            _team = jsonData.game.room.match.playerData.team.name;
 
                             var _minutes = _gameTime / 60;
                             var _seconds = _gameTime % 60;
@@ -594,18 +585,12 @@ namespace XeroPresence
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (cb_StartWithWindows.Checked)
-            {
-                this.Visible = false;
-                this.ShowInTaskbar = false;
-                notifyIcon.Visible = true;
-            }
-            if (cb_HideInTray.Checked)
-            {
-                this.Visible = false;
-                this.ShowInTaskbar = false;
-                notifyIcon.Visible = true;
-            }
+            tb_accesskey.Text = Settings.Default.accesskey;
+            tb_accesskeysecret.Text = Settings.Default.accesskeysecret;
+            cb_StartWithWindows.Checked = Settings.Default.windows;
+            cb_HideInTray.Checked = Settings.Default.tray;
+            cb_ShowLevel.Checked = Settings.Default.showlevel;
+            HideInSystemTray();
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -614,6 +599,17 @@ namespace XeroPresence
             {
                 bt_login.Focus();
                 bt_login.PerformClick();
+            }
+            //HideInSystemTray();
+        }
+
+        private void HideInSystemTray()
+        {
+            if (cb_StartWithWindows.Checked || cb_HideInTray.Checked)
+            {
+                this.Visible = false;
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
             }
         }
 

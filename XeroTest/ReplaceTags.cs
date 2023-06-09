@@ -13,35 +13,35 @@ namespace XeroPresence
 
         public static string Room(string input)
         {
-            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage)\]";
+            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|PlayerCount|Mode|Map|MapImage|Ping|Team)\]";
             Regex regex = new Regex(pattern);
             return regex.Replace(input, match => GetReplacementValueRoom(match.Groups[1].Value));
         }
 
         public static string TD(string input)
         {
-            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage|GameState|GameTimeState|ScoreAlpha|ScoreBeta|Team|State|Ping|TotalScore|Kills|Goals|Deaths)\]";
+            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|PlayerCount|Mode|Map|MapImage|GameState|GameTimeState|ScoreAlpha|ScoreBeta|Team|State|Ping|TotalScore|Kills|Goals|Deaths)\]";
             Regex regex = new Regex(pattern);
             return regex.Replace(input, match => GetReplacementValueTD(match.Groups[1].Value));
         }
 
         public static string DM(string input)
         {
-            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage|GameState|GameTimeState|ScoreAlpha|ScoreBeta|Team|State|Ping|TotalScore|Kills|Deaths)\]";
+            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|PlayerCount|Mode|Map|MapImage|GameState|GameTimeState|ScoreAlpha|ScoreBeta|Team|State|Ping|TotalScore|Kills|Deaths)\]";
             Regex regex = new Regex(pattern);
             return regex.Replace(input, match => GetReplacementValueDM(match.Groups[1].Value));
         }
 
         public static string BR(string input)
         {
-            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage|GameState|Team|State|Ping|TotalScore|Kills|Deaths)\]";
+            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|PlayerCount|Mode|Map|MapImage|GameState|Team|State|Ping|TotalScore|Kills|Deaths)\]";
             Regex regex = new Regex(pattern);
             return regex.Replace(input, match => GetReplacementValueBR(match.Groups[1].Value));
         }
 
         public static string CH(string input)
         {
-            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|Mode|Map|MapImage|GameState|Team|State|Ping|TotalScore|Kills|Deaths|ChaserCount|Wins|Survived)\]";
+            string pattern = @"\[(PEN|ZP|Gems|Username|Level|LevelImage|XP|XPRequired|XPPercentage|TotalXP|Channel|RoomID|RoomName|ScoreLimit|PlayerLimit|PlayerCount|Mode|Map|MapImage|GameState|Team|State|Ping|TotalScore|Kills|Deaths|ChaserCount|Wins|Survived)\]";
             Regex regex = new Regex(pattern);
             return regex.Replace(input, match => GetReplacementValueCH(match.Groups[1].Value));
         }
@@ -111,6 +111,8 @@ namespace XeroPresence
                     return MainForm._scorelimit.ToString();
                 case "PlayerLimit":
                     return MainForm._playerlimit.ToString();
+                case "PlayerCount":
+                    return MainForm._playercount.ToString();
                 case "Mode":
                     return MainForm._mode;
                 case "Map":
@@ -156,6 +158,8 @@ namespace XeroPresence
                     return MainForm._scorelimit.ToString();
                 case "PlayerLimit":
                     return MainForm._playerlimit.ToString();
+                case "PlayerCount":
+                    return MainForm._playercount.ToString();
                 case "Mode":
                     return MainForm._mode;
                 case "Map":
@@ -223,6 +227,8 @@ namespace XeroPresence
                     return MainForm._scorelimit.ToString();
                 case "PlayerLimit":
                     return MainForm._playerlimit.ToString();
+                case "PlayerCount":
+                    return MainForm._playercount.ToString();
                 case "Mode":
                     return MainForm._mode;
                 case "Map":
@@ -288,6 +294,8 @@ namespace XeroPresence
                     return MainForm._scorelimit.ToString();
                 case "PlayerLimit":
                     return MainForm._playerlimit.ToString();
+                case "PlayerCount":
+                    return MainForm._playercount.ToString();
                 case "Mode":
                     return MainForm._mode;
                 case "Map":
@@ -345,6 +353,8 @@ namespace XeroPresence
                     return MainForm._scorelimit.ToString();
                 case "PlayerLimit":
                     return MainForm._playerlimit.ToString();
+                case "PlayerCount":
+                    return MainForm._playercount.ToString();
                 case "Mode":
                     return MainForm._mode;
                 case "Map":
