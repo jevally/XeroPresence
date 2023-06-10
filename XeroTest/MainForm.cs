@@ -16,6 +16,8 @@ namespace XeroPresence
         public static int _zp = 0;
         public static int _gems = 0;
         public static string _nickname = "";
+        public static string _clan = "";
+        public static string _clanimage = "";
         public static int _level = 0;
         public static string _levelimage = "";
         public static int _xp = 0;
@@ -155,6 +157,12 @@ namespace XeroPresence
                     if (File.Exists(exePath + "/config.json"))
                         customtext = File.ReadAllText(exePath + "/config.json");
 
+                    var _clancheck = jsonData.info.clan;
+                    if (_clancheck != null)
+                    {
+                        _clan = jsonData.info.clan.name;
+                        _clanimage = jsonData.info.clan.image;
+                    }
                     _channel = jsonData.game.channel.name;
                     _nickname = jsonData.info.name;
                     _level = jsonData.info.progression.level.value;

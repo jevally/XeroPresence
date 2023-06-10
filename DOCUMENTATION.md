@@ -1,9 +1,12 @@
 # Documentation
 
 ## config.json
-Here is a blank config.json preset  
+Here is an example config.json  
 Copy the code and save it to a new file named config.json  
-The file should be in the same directory as XeroPresence.exe
+The file should be in the same directory as XeroPresence.exe    
+
+A blank config.json can be downloaded here:
+[config.json](https://raw.githubusercontent.com/Dekirai/XeroPresence/main/config.json) (Right-Click and click "Save link as...")
 ```json
 {
    "Lobby":{
@@ -82,19 +85,21 @@ The file should be in the same directory as XeroPresence.exe
 ```
 ## Available Tags
 
-| Tag  | Description | Usable in? |
+| Tag | Description | Usable in? |
 | ------------- | ------------- | ------------- |
-| [PEN]  | Prints your amount of PEN  | Everywhere  | 
-| [ZP]  | Prints your amount of ZP  | Everywhere  | 
-| [Gems]  | Prints your amount of Gems  | Everywhere  | 
-| [Username]  | Prints your Username  | Everywhere  | 
-| [Level]  | Prints your current level  | Everywhere  | 
-| [LevelImage]  | Prints the image of your level as URL | Everywhere  | 
-| [XP]  | Prints your current XP  | Everywhere  | 
-| [XPRequired]  | Prints your required XP  | Everywhere  | 
-| [XPPercentage]  | Prints the percentage of XP you have  | Everywhere  | 
-| [TotalXP]  | Prints the total amount of XP you've gained  | Everywhere  | 
-| [Channel]  | Prints the name of the channel you are in  | Everywhere  | 
+| [PEN] | Prints your amount of PEN | Everywhere | 
+| [ZP] | Prints your amount of ZP | Everywhere | 
+| [Gems] | Prints your amount of Gems | Everywhere | 
+| [Username] | Prints your Username | Everywhere | 
+| [Clan] | Prints the name of your clan | Everywhere | 
+| [ClanImage] | Prints the image URL of your clan | Everywhere | 
+| [Level] | Prints your current level | Everywhere | 
+| [LevelImage] | Prints the image URL of your level | Everywhere | 
+| [XP] | Prints your current XP | Everywhere | 
+| [XPRequired] | Prints your required XP | Everywhere | 
+| [XPPercentage] | Prints the percentage of XP you have | Everywhere | 
+| [TotalXP] | Prints the total amount of XP you've gained | Everywhere | 
+| [Channel] | Prints the name of the channel you are in | Everywhere | 
 | [RoomID] | Prints the ID of the room you are in | Room & Match (All modes) |
 | [RoomName] | Prints the name of the room you are in | Room & Match (All modes) |
 | [ScoreLimit] | Prints the required score to win | Room & Match (All modes) |
@@ -104,13 +109,13 @@ The file should be in the same directory as XeroPresence.exe
 | [Map] | Prints the current map of the room | Room & Match (All modes) |
 | [MapImage] | Prints the image of the map as URL | Room & Match (All modes) |
 | [Team] | Prints the current team you are playing on | Room & Match (TD & DM) |
-| [Ping] | Prints your current ping to the match | Room & Match (All modes) |
+| [Ping] | Prints your current ping to the room | Room & Match (All modes) |
 | [GameState] | Prints the current game state of the match | Match (All modes) |
 | [GameTimeState] | Prints the current time state of the match | Match (TD & DM) |
 | [ScoreAlpha] | Prints the current score of team alpha | Match (TD & DM) |
 | [ScoreBeta] | Prints the current score of team beta | Match (TD & DM) |
 | [State] | Prints your current state (Alive, Dead...) | Match (All modes) | 
-| [TotalScore] | Prints your total score obtained in the match | Match (All modes) | 
+| [TotalScore] | Prints your total score gained in the match | Match (All modes) | 
 | [Kills] | Prints your total amount of kills done in the match | Match (All modes) |
 | [Goals] | Prints your amount of touch downs done in the match | Match (TD) |
 | [Deaths] | Prints your amount of deaths in the match | Match (All Modes) |
