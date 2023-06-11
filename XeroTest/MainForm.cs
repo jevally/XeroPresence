@@ -256,6 +256,8 @@ namespace XeroPresence
                                     _newsmallasseturl = ReplaceTags.TD(_smallasseturl);
                                     _newsmallassettext = ReplaceTags.TD(_smallassettext);
                                 }
+                                else
+                                    ResetConfig();
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -314,6 +316,8 @@ namespace XeroPresence
                                     _newsmallasseturl = ReplaceTags.DM(_smallasseturl);
                                     _newsmallassettext = ReplaceTags.DM(_smallassettext);
                                 }
+                                else
+                                    ResetConfig();
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -370,6 +374,8 @@ namespace XeroPresence
                                     _newsmallasseturl = ReplaceTags.BR(_smallasseturl);
                                     _newsmallassettext = ReplaceTags.BR(_smallassettext);
                                 }
+                                else
+                                    ResetConfig();
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -429,6 +435,8 @@ namespace XeroPresence
                                     _newsmallasseturl = ReplaceTags.CH(_smallasseturl);
                                     _newsmallassettext = ReplaceTags.CH(_smallassettext);
                                 }
+                                else
+                                    ResetConfig();
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -492,6 +500,8 @@ namespace XeroPresence
                                 _newsmallasseturl = ReplaceTags.Room(_smallasseturl);
                                 _newsmallassettext = ReplaceTags.Room(_smallassettext);
                             }
+                            else
+                                ResetConfig();
 
                             if (_overwritesmallasset)
                                 discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -545,6 +555,8 @@ namespace XeroPresence
                             _newsmallasseturl = ReplaceTags.Lobby(_smallasseturl);
                             _newsmallassettext = ReplaceTags.Lobby(_smallassettext);
                         }
+                        else
+                            ResetConfig();
 
                         if (_overwritelargeasset)
                             discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
@@ -659,6 +671,28 @@ namespace XeroPresence
                 this.ShowInTaskbar = false;
                 notifyIcon.Visible = true;
             }
+        }
+
+        private void ResetConfig()
+        {
+            _overwritedetails = false;
+            _overwritestate = false;
+            _overwritelargeasset = false;
+            _overwritesmallasset = false;
+
+            _details = "";
+            _state = "";
+            _largeasseturl = "";
+            _largeassettext = "";
+            _smallasseturl = "";
+            _smallassettext = "";
+
+            _newdetails = "";
+            _newstate = "";
+            _newlargeasseturl = "";
+            _newlargeassettext = "";
+            _newsmallasseturl = "";
+            _newsmallassettext = "";
         }
 
         private void bt_save_Click(object sender, EventArgs e)
