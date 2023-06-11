@@ -49,6 +49,25 @@ namespace XeroPresence
         public static int _chaserCount = 0;
         public static int _survived = 0;
 
+        public static bool _overwritedetails = false;
+        public static bool _overwritestate = false;
+        public static bool _overwritelargeasset = false;
+        public static bool _overwritesmallasset = false;
+
+        public static string _details = "";
+        public static string _state = "";
+        public static string _largeasseturl = "";
+        public static string _largeassettext = "";
+        public static string _smallasseturl = "";
+        public static string _smallassettext = "";
+
+        public static string _newdetails = "";
+        public static string _newstate = "";
+        public static string _newlargeasseturl = "";
+        public static string _newlargeassettext = "";
+        public static string _newsmallasseturl = "";
+        public static string _newsmallassettext = "";
+
         public MainForm()
         {
             InitializeComponent();
@@ -154,9 +173,6 @@ namespace XeroPresence
                     if (_isOnline == null || _isServer == null || _isChannel == null)
                         return;
 
-                    if (File.Exists(exePath + "/config.json"))
-                        customtext = File.ReadAllText(exePath + "/config.json");
-
                     var _clancheck = jsonData.info.clan;
                     if (_clancheck != null)
                     {
@@ -217,25 +233,29 @@ namespace XeroPresence
                                 _goals = jsonData.game.room.match.playerData.record.goalsScore;
                                 _deaths = jsonData.game.room.match.playerData.record.deaths;
 
-                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                                bool _overwritedetails = _customtext.Touchdown.OverwriteDetails;
-                                bool _overwritestate = _customtext.Touchdown.OverwriteState;
-                                bool _overwritelargeasset = _customtext.Touchdown.OverwriteLargeAsset;
-                                bool _overwritesmallasset = _customtext.Touchdown.OverwriteSmallAsset;
+                                if (File.Exists(exePath + "/config.json"))
+                                {
+                                    customtext = File.ReadAllText(exePath + "/config.json");
+                                    dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                    _overwritedetails = _customtext.Touchdown.OverwriteDetails;
+                                    _overwritestate = _customtext.Touchdown.OverwriteState;
+                                    _overwritelargeasset = _customtext.Touchdown.OverwriteLargeAsset;
+                                    _overwritesmallasset = _customtext.Touchdown.OverwriteSmallAsset;
 
-                                string _details = _customtext.Touchdown.Details;
-                                string _state = _customtext.Touchdown.State;
-                                string _largeasseturl = _customtext.Touchdown.LargeAssetURL;
-                                string _largeassettext = _customtext.Touchdown.LargeAssetText;
-                                string _smallasseturl = _customtext.Touchdown.SmallAssetURL;
-                                string _smallassettext = _customtext.Touchdown.SmallAssetText;
+                                    _details = _customtext.Touchdown.Details;
+                                    _state = _customtext.Touchdown.State;
+                                    _largeasseturl = _customtext.Touchdown.LargeAssetURL;
+                                    _largeassettext = _customtext.Touchdown.LargeAssetText;
+                                    _smallasseturl = _customtext.Touchdown.SmallAssetURL;
+                                    _smallassettext = _customtext.Touchdown.SmallAssetText;
 
-                                string _newdetails = ReplaceTags.TD(_details);
-                                string _newstate = ReplaceTags.TD(_state);
-                                string _newlargeasseturl = ReplaceTags.TD(_largeasseturl);
-                                string _newlargeassettext = ReplaceTags.TD(_largeassettext);
-                                string _newsmallasseturl = ReplaceTags.TD(_smallasseturl);
-                                string _newsmallassettext = ReplaceTags.TD(_smallassettext);
+                                    _newdetails = ReplaceTags.TD(_details);
+                                    _newstate = ReplaceTags.TD(_state);
+                                    _newlargeasseturl = ReplaceTags.TD(_largeasseturl);
+                                    _newlargeassettext = ReplaceTags.TD(_largeassettext);
+                                    _newsmallasseturl = ReplaceTags.TD(_smallasseturl);
+                                    _newsmallassettext = ReplaceTags.TD(_smallassettext);
+                                }
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -271,25 +291,29 @@ namespace XeroPresence
                                 _kills = jsonData.game.room.match.playerData.record.kills;
                                 _deaths = jsonData.game.room.match.playerData.record.deaths;
 
-                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                                bool _overwritedetails = _customtext.Deathmatch.OverwriteDetails;
-                                bool _overwritestate = _customtext.Deathmatch.OverwriteState;
-                                bool _overwritelargeasset = _customtext.Deathmatch.OverwriteLargeAsset;
-                                bool _overwritesmallasset = _customtext.Deathmatch.OverwriteSmallAsset;
+                                if (File.Exists(exePath + "/config.json"))
+                                {
+                                    customtext = File.ReadAllText(exePath + "/config.json");
+                                    dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                    _overwritedetails = _customtext.Deathmatch.OverwriteDetails;
+                                    _overwritestate = _customtext.Deathmatch.OverwriteState;
+                                    _overwritelargeasset = _customtext.Deathmatch.OverwriteLargeAsset;
+                                    _overwritesmallasset = _customtext.Deathmatch.OverwriteSmallAsset;
 
-                                string _details = _customtext.Deathmatch.Details;
-                                string _state = _customtext.Deathmatch.State;
-                                string _largeasseturl = _customtext.Deathmatch.LargeAssetURL;
-                                string _largeassettext = _customtext.Deathmatch.LargeAssetText;
-                                string _smallasseturl = _customtext.Deathmatch.SmallAssetURL;
-                                string _smallassettext = _customtext.Deathmatch.SmallAssetText;
+                                    _details = _customtext.Deathmatch.Details;
+                                    _state = _customtext.Deathmatch.State;
+                                    _largeasseturl = _customtext.Deathmatch.LargeAssetURL;
+                                    _largeassettext = _customtext.Deathmatch.LargeAssetText;
+                                    _smallasseturl = _customtext.Deathmatch.SmallAssetURL;
+                                    _smallassettext = _customtext.Deathmatch.SmallAssetText;
 
-                                string _newdetails = ReplaceTags.DM(_details);
-                                string _newstate = ReplaceTags.DM(_state);
-                                string _newlargeasseturl = ReplaceTags.DM(_largeasseturl);
-                                string _newlargeassettext = ReplaceTags.DM(_largeassettext);
-                                string _newsmallasseturl = ReplaceTags.DM(_smallasseturl);
-                                string _newsmallassettext = ReplaceTags.DM(_smallassettext);
+                                    _newdetails = ReplaceTags.DM(_details);
+                                    _newstate = ReplaceTags.DM(_state);
+                                    _newlargeasseturl = ReplaceTags.DM(_largeasseturl);
+                                    _newlargeassettext = ReplaceTags.DM(_largeassettext);
+                                    _newsmallasseturl = ReplaceTags.DM(_smallasseturl);
+                                    _newsmallassettext = ReplaceTags.DM(_smallassettext);
+                                }
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -323,25 +347,29 @@ namespace XeroPresence
                                 _kills = jsonData.game.room.match.playerData.record.kills;
                                 _deaths = jsonData.game.room.match.playerData.record.deaths;
 
-                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                                bool _overwritedetails = _customtext.BattleRoyal.OverwriteDetails;
-                                bool _overwritestate = _customtext.BattleRoyal.OverwriteState;
-                                bool _overwritelargeasset = _customtext.BattleRoyal.OverwriteLargeAsset;
-                                bool _overwritesmallasset = _customtext.BattleRoyal.OverwriteSmallAsset;
+                                if (File.Exists(exePath + "/config.json"))
+                                {
+                                    customtext = File.ReadAllText(exePath + "/config.json");
+                                    dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                    _overwritedetails = _customtext.BattleRoyal.OverwriteDetails;
+                                    _overwritestate = _customtext.BattleRoyal.OverwriteState;
+                                    _overwritelargeasset = _customtext.BattleRoyal.OverwriteLargeAsset;
+                                    _overwritesmallasset = _customtext.BattleRoyal.OverwriteSmallAsset;
 
-                                string _details = _customtext.BattleRoyal.Details;
-                                string _state = _customtext.BattleRoyal.State;
-                                string _largeasseturl = _customtext.BattleRoyal.LargeAssetURL;
-                                string _largeassettext = _customtext.BattleRoyal.LargeAssetText;
-                                string _smallasseturl = _customtext.BattleRoyal.SmallAssetURL;
-                                string _smallassettext = _customtext.BattleRoyal.SmallAssetText;
+                                    _details = _customtext.BattleRoyal.Details;
+                                    _state = _customtext.BattleRoyal.State;
+                                    _largeasseturl = _customtext.BattleRoyal.LargeAssetURL;
+                                    _largeassettext = _customtext.BattleRoyal.LargeAssetText;
+                                    _smallasseturl = _customtext.BattleRoyal.SmallAssetURL;
+                                    _smallassettext = _customtext.BattleRoyal.SmallAssetText;
 
-                                string _newdetails = ReplaceTags.BR(_details);
-                                string _newstate = ReplaceTags.BR(_state);
-                                string _newlargeasseturl = ReplaceTags.BR(_largeasseturl);
-                                string _newlargeassettext = ReplaceTags.BR(_largeassettext);
-                                string _newsmallasseturl = ReplaceTags.BR(_smallasseturl);
-                                string _newsmallassettext = ReplaceTags.BR(_smallassettext);
+                                    _newdetails = ReplaceTags.BR(_details);
+                                    _newstate = ReplaceTags.BR(_state);
+                                    _newlargeasseturl = ReplaceTags.BR(_largeasseturl);
+                                    _newlargeassettext = ReplaceTags.BR(_largeassettext);
+                                    _newsmallasseturl = ReplaceTags.BR(_smallasseturl);
+                                    _newsmallassettext = ReplaceTags.BR(_smallassettext);
+                                }
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -378,25 +406,29 @@ namespace XeroPresence
                                 _survived = jsonData.game.room.match.playerData.record.survived;
                                 _wins = jsonData.game.room.match.playerData.record.wins;
 
-                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                                bool _overwritedetails = _customtext.Chaser.OverwriteDetails;
-                                bool _overwritestate = _customtext.Chaser.OverwriteState;
-                                bool _overwritelargeasset = _customtext.Chaser.OverwriteLargeAsset;
-                                bool _overwritesmallasset = _customtext.Chaser.OverwriteSmallAsset;
+                                if (File.Exists(exePath + "/config.json"))
+                                {
+                                    customtext = File.ReadAllText(exePath + "/config.json");
+                                    dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                    _overwritedetails = _customtext.Chaser.OverwriteDetails;
+                                    _overwritestate = _customtext.Chaser.OverwriteState;
+                                    _overwritelargeasset = _customtext.Chaser.OverwriteLargeAsset;
+                                    _overwritesmallasset = _customtext.Chaser.OverwriteSmallAsset;
 
-                                string _details = _customtext.Chaser.Details;
-                                string _state = _customtext.Chaser.State;
-                                string _largeasseturl = _customtext.Chaser.LargeAssetURL;
-                                string _largeassettext = _customtext.Chaser.LargeAssetText;
-                                string _smallasseturl = _customtext.Chaser.SmallAssetURL;
-                                string _smallassettext = _customtext.Chaser.SmallAssetText;
+                                    _details = _customtext.Chaser.Details;
+                                    _state = _customtext.Chaser.State;
+                                    _largeasseturl = _customtext.Chaser.LargeAssetURL;
+                                    _largeassettext = _customtext.Chaser.LargeAssetText;
+                                    _smallasseturl = _customtext.Chaser.SmallAssetURL;
+                                    _smallassettext = _customtext.Chaser.SmallAssetText;
 
-                                string _newdetails = ReplaceTags.CH(_details);
-                                string _newstate = ReplaceTags.CH(_state);
-                                string _newlargeasseturl = ReplaceTags.CH(_largeasseturl);
-                                string _newlargeassettext = ReplaceTags.CH(_largeassettext);
-                                string _newsmallasseturl = ReplaceTags.CH(_smallasseturl);
-                                string _newsmallassettext = ReplaceTags.CH(_smallassettext);
+                                    _newdetails = ReplaceTags.CH(_details);
+                                    _newstate = ReplaceTags.CH(_state);
+                                    _newlargeasseturl = ReplaceTags.CH(_largeasseturl);
+                                    _newlargeassettext = ReplaceTags.CH(_largeassettext);
+                                    _newsmallasseturl = ReplaceTags.CH(_smallasseturl);
+                                    _newsmallassettext = ReplaceTags.CH(_smallassettext);
+                                }
 
                                 if (_overwritesmallasset)
                                     discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -437,25 +469,29 @@ namespace XeroPresence
                         }
                         else
                         {
-                            dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                            bool _overwritedetails = _customtext.Room.OverwriteDetails;
-                            bool _overwritestate = _customtext.Room.OverwriteState;
-                            bool _overwritelargeasset = _customtext.Room.OverwriteLargeAsset;
-                            bool _overwritesmallasset = _customtext.Room.OverwriteSmallAsset;
+                            if (File.Exists(exePath + "/config.json"))
+                            {
+                                customtext = File.ReadAllText(exePath + "/config.json");
+                                dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                                _overwritedetails = _customtext.Room.OverwriteDetails;
+                                _overwritestate = _customtext.Room.OverwriteState;
+                                _overwritelargeasset = _customtext.Room.OverwriteLargeAsset;
+                                _overwritesmallasset = _customtext.Room.OverwriteSmallAsset;
 
-                            string _details = _customtext.Room.Details;
-                            string _state = _customtext.Room.State;
-                            string _largeasseturl = _customtext.Room.LargeAssetURL;
-                            string _largeassettext = _customtext.Room.LargeAssetText;
-                            string _smallasseturl = _customtext.Room.SmallAssetURL;
-                            string _smallassettext = _customtext.Room.SmallAssetText;
+                                _details = _customtext.Room.Details;
+                                _state = _customtext.Room.State;
+                                _largeasseturl = _customtext.Room.LargeAssetURL;
+                                _largeassettext = _customtext.Room.LargeAssetText;
+                                _smallasseturl = _customtext.Room.SmallAssetURL;
+                                _smallassettext = _customtext.Room.SmallAssetText;
 
-                            string _newdetails = ReplaceTags.Room(_details);
-                            string _newstate = ReplaceTags.Room(_state);
-                            string _newlargeasseturl = ReplaceTags.Room(_largeasseturl);
-                            string _newlargeassettext = ReplaceTags.Room(_largeassettext);
-                            string _newsmallasseturl = ReplaceTags.Room(_smallasseturl);
-                            string _newsmallassettext = ReplaceTags.Room(_smallassettext);
+                                _newdetails = ReplaceTags.Room(_details);
+                                _newstate = ReplaceTags.Room(_state);
+                                _newlargeasseturl = ReplaceTags.Room(_largeasseturl);
+                                _newlargeassettext = ReplaceTags.Room(_largeassettext);
+                                _newsmallasseturl = ReplaceTags.Room(_smallasseturl);
+                                _newsmallassettext = ReplaceTags.Room(_smallassettext);
+                            }
 
                             if (_overwritesmallasset)
                                 discord.UpdateSmallAsset(_newsmallasseturl, _newsmallassettext);
@@ -486,25 +522,29 @@ namespace XeroPresence
                     }
                     else
                     {
-                        dynamic _customtext = JsonConvert.DeserializeObject(customtext);
-                        bool _overwritedetails = _customtext.Lobby.OverwriteDetails;
-                        bool _overwritestate = _customtext.Lobby.OverwriteState;
-                        bool _overwritelargeasset = _customtext.Lobby.OverwriteLargeAsset;
-                        bool _overwritesmallasset = _customtext.Lobby.OverwriteSmallAsset;
+                        if (File.Exists(exePath + "/config.json"))
+                        {
+                            customtext = File.ReadAllText(exePath + "/config.json");
+                            dynamic _customtext = JsonConvert.DeserializeObject(customtext);
+                            _overwritedetails = _customtext.Lobby.OverwriteDetails;
+                            _overwritestate = _customtext.Lobby.OverwriteState;
+                            _overwritelargeasset = _customtext.Lobby.OverwriteLargeAsset;
+                            _overwritesmallasset = _customtext.Lobby.OverwriteSmallAsset;
 
-                        string _details = _customtext.Lobby.Details;
-                        string _state = _customtext.Lobby.State;
-                        string _largeasseturl = _customtext.Lobby.LargeAssetURL;
-                        string _largeassettext = _customtext.Lobby.LargeAssetText;
-                        string _smallasseturl = _customtext.Lobby.SmallAssetURL;
-                        string _smallassettext = _customtext.Lobby.SmallAssetText;
+                            _details = _customtext.Lobby.Details;
+                            _state = _customtext.Lobby.State;
+                            _largeasseturl = _customtext.Lobby.LargeAssetURL;
+                            _largeassettext = _customtext.Lobby.LargeAssetText;
+                            _smallasseturl = _customtext.Lobby.SmallAssetURL;
+                            _smallassettext = _customtext.Lobby.SmallAssetText;
 
-                        string _newdetails = ReplaceTags.Lobby(_details);
-                        string _newstate = ReplaceTags.Lobby(_state);
-                        string _newlargeasseturl = ReplaceTags.Lobby(_largeasseturl);
-                        string _newlargeassettext = ReplaceTags.Lobby(_largeassettext);
-                        string _newsmallasseturl = ReplaceTags.Lobby(_smallasseturl);
-                        string _newsmallassettext = ReplaceTags.Lobby(_smallassettext);
+                            _newdetails = ReplaceTags.Lobby(_details);
+                            _newstate = ReplaceTags.Lobby(_state);
+                            _newlargeasseturl = ReplaceTags.Lobby(_largeasseturl);
+                            _newlargeassettext = ReplaceTags.Lobby(_largeassettext);
+                            _newsmallasseturl = ReplaceTags.Lobby(_smallasseturl);
+                            _newsmallassettext = ReplaceTags.Lobby(_smallassettext);
+                        }
 
                         if (_overwritelargeasset)
                             discord.UpdateLargeAsset(_newlargeasseturl, _newlargeassettext);
